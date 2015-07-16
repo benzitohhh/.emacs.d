@@ -63,7 +63,14 @@
     (package-install p)))
 
 ;; zenburn-theme
-(require 'zenburn-theme)
+(if (window-system)
+    (progn
+      ;(load-theme 'wombat)
+      (load-theme 'deeper-blue)
+      ;(require 'zenburn-theme)
+      ))
+
+
 
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
@@ -225,10 +232,16 @@
 
 ;; set indent-level for js
 (setq js-indent-level 2)
-(custom-set-variables  
- '(js2-basic-offset 2)  
- '(js2-bounce-indent-p nil)  
-)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
+ '(js2-basic-offset 2)
+ '(js2-bounce-indent-p nil))
 
 ;; javascript
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
@@ -249,3 +262,9 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
