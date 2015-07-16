@@ -14,14 +14,13 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-(unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-  (package-refresh-contents))
-
 ;;; package.el
 ;;; everytime emacs starts, it will automatically check if those packages are
 ;;; missing, it will install them automatically
-(when (not package-archive-contents)
-  (package-refresh-contents))
+
+;; (when (not package-archive-contents)
+;;   (package-refresh-contents))
+
 (defvar tmtxt/elpa-packages
   '(
     ;;visual-regexp
@@ -58,6 +57,7 @@
     tern-auto-complete
     markdown-mode
     ))
+
 (dolist (p tmtxt/elpa-packages)
   (when (not (package-installed-p p))
     (package-install p)))
@@ -66,7 +66,6 @@
 (require 'zenburn-theme)
 
 ;; Unix utf8 please
-(set-default buffer-file-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
 (set-default default-buffer-file-coding-system 'utf-8-unix)
@@ -106,8 +105,6 @@
 ;; browsekillring
 ;; saveplace
 ;; Also check... epl, find-file-in-project (and flx)
-
-
 
 ;(setq custom-yasnippet-dir (concat (file-name-directory load-file-name) "etc/snippets"))
 ;(setq yas/snippet-dirs (cons custom-yasnippet-dir yas/snippet-dirs))
