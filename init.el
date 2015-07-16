@@ -32,7 +32,6 @@
     ;;highlight-escape-sequences
     ;popup
     ;ac-cider-compliment
-    ;sparql-mode
     ;jedi
     ;; concurrent
     ;; ctable
@@ -52,6 +51,8 @@
     full-ack
     idle-highlight
     php-mode
+    js2-mode
+    sparql-mode
     zenburn-theme
     tern
     tern-auto-complete
@@ -99,12 +100,13 @@
 ;; !!! load environment file
 ;; yas (including default snippets, and custom snippets)
 ;; js2
-;; 
+;; python (JEDI)
+;; electric-pair (this mode is included in emacs 24 by default... how to turn it on everywhere?)
+;; autocomplete - make sure it works everywhere!
 ;; browsekillring
 ;; saveplace
-;; python (JEDI)
-;; autocomplete - make sure it works everywhere!
 ;; Also check... epl, find-file-in-project (and flx)
+
 
 
 ;(setq custom-yasnippet-dir (concat (file-name-directory load-file-name) "etc/snippets"))
