@@ -41,7 +41,7 @@
     elisp-slime-nav ;; allows M-. to elisp source code
     expand-region
     multiple-cursors
-    
+    git-gutter
     yasnippet
     auto-complete
     paredit
@@ -55,6 +55,7 @@
     zenburn-theme
     tern
     tern-auto-complete
+    markdown-mode
     ))
 (dolist (p tmtxt/elpa-packages)
   (when (not (package-installed-p p))
@@ -91,30 +92,24 @@
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-(defadvice magit-diff (before magit-diff-default-to-head activate)
-  "Offer HEAD as first default for magit-diff"
-  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
-
 ;; TODO:
-;; bindings.el
+;; bindings.el (just language-specific stuff to go now...)
 ;; appearance:
 ;;   see https://github.com/tmtxt/.emacs.d/blob/master/config/tmtxt-appearance.el
 ;; !!! load environment file
-;; magit
-;; yas
+;; yas (including default snippets, and custom snippets)
 ;; js2
-;; markdown
+;; 
 ;; browsekillring
-;; emacs-git-gutter
-;; expand-region ??? (may be in main emacs now)
-;; multiple-cursors ??? (may be in main emacs now)
 ;; saveplace
+;; python (JEDI)
+;; autocomplete - make sure it works everywhere!
+;; Also check... epl, find-file-in-project (and flx)
+
 
 ;(setq custom-yasnippet-dir (concat (file-name-directory load-file-name) "etc/snippets"))
 ;(setq yas/snippet-dirs (cons custom-yasnippet-dir yas/snippet-dirs))
 ;(yas/reload-all)
-
-;; FROM bindings....
 
 ;; To cycle between frames
 (global-set-key "\M-`" 'other-frame)
@@ -143,6 +138,14 @@
 (global-set-key (kbd "s-r") 'magit-status)
 (global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
+
+;; Enable git gutter mode
+(global-git-gutter-mode +1)
+
+;; Ensure magit uses HEAD as default for diff
+(defadvice magit-diff (before magit-diff-default-to-head activate)
+  "Offer HEAD as first default for magit-diff"
+  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
 
 ;; open init file
 ;; (global-set-key (kbd "<f18>") 'open-init)
@@ -241,3 +244,9 @@
 ;; (require 'groovy-mode)
 ;; (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
 
+;; Markdown-mode
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
