@@ -1,0 +1,4 @@
+#contributor : Ben Immanuel 
+#name : err
+# --
+error_log(${1:someMessage});$0

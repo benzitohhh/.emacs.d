@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+# name: unittest class
+# expand-env: ((yas/indent-line 'fixed))
+# --
+class Test${1:ClassName}(unittest.TestCase):
+    """$2
+    """
+
+    def setUp(self):
+        pass
+
+    def test_${3:TestName}(self):
+        self.assertEqual(1, 1)
+        self.assertTrue(True)
+        $0
+
+unittest.main()

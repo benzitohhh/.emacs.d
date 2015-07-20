@@ -23,7 +23,7 @@
 
 (defvar tmtxt/elpa-packages
   '(
-    ;;visual-regexp
+    visual-regexp
     ;;flycheck
     ;;css-eldoc
     ;;nodejs-repl
@@ -36,6 +36,9 @@
     ;; ctable
     ;; deferred
     ;; epc
+    auto-complete
+    browse-kill-ring
+    web-mode
     elisp-slime-nav ;; allows M-. to elisp source code
     expand-region
     multiple-cursors
@@ -69,8 +72,6 @@
       (load-theme 'deeper-blue)
       ;(require 'zenburn-theme)
       ))
-
-
 
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
@@ -106,16 +107,17 @@
 ;; !!! load environment file
 ;; yas (including default snippets, and custom snippets)
 ;; js2
+;; tern-mode
 ;; python (JEDI)
 ;; electric-pair (this mode is included in emacs 24 by default... how to turn it on everywhere?)
 ;; autocomplete - make sure it works everywhere!
 ;; browsekillring
-;; saveplace
 ;; Also check... epl, find-file-in-project (and flx)
+;; webmode
 
-;(setq custom-yasnippet-dir (concat (file-name-directory load-file-name) "etc/snippets"))
-;(setq yas/snippet-dirs (cons custom-yasnippet-dir yas/snippet-dirs))
-;(yas/reload-all)
+;; yas snippets (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; To cycle between frames
 (global-set-key "\M-`" 'other-frame)
@@ -173,6 +175,10 @@
 ;; cleanup
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
 
+;; use saveplace - remembers previous position in a file
+(require 'saveplace)
+(setq-default save-place t)
+
 ;; Revert all buffers
 (defun revert-all-buffers ()
     "Refreshes all open buffers from their respective files."
@@ -216,8 +222,6 @@
         (e (if mark-active (max (point) (mark)) (point-max))))
     (shell-command-on-region
      b e "python -mjson.tool" (current-buffer) t)))
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS

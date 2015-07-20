@@ -1,0 +1,3 @@
+#name : backtrace ...(...)
+# --
+error_log(print_r(debug_backtrace(), TRUE));

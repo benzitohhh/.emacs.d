@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# name: <script id="" type="text/template">...</script>
+# --
+<script id="${1:id}" type="text/template">$0</script>
