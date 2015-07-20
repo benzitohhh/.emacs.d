@@ -1,10 +1,6 @@
 ;; TODO:
-;; bindings.el (just language-specific stuff to go now...)
-;; appearance:
-;;   see https://github.com/tmtxt/.emacs.d/blob/master/config/tmtxt-appearance.el
-;; !!! load environment file
-;; tern-mode
-;; python (JEDI)
+;; load environment file (also see open init file functions below)
+;; yas - only load for certain modes (i.e. for faster opening of files on commandline)
 ;; autocomplete - make sure it works everywhere!
 ;; Also check... epl, find-file-in-project (and flx)
 ;; webmode
@@ -34,46 +30,39 @@
 (package-initialize)
 
 ;; Make sure the below packages are available
-(defvar benimmanuel/elpa-packages
+(defvar my-elpa-packages
   '(
-    visual-regexp
     ;;flycheck
-    ;;css-eldoc
-    ;;nodejs-repl
-    ;;restclient
-    ;;highlight-escape-sequences
-    ;popup
-    ;ac-cider-compliment
-    ;jedi
-    ;; concurrent
-    ;; ctable
-    ;; deferred
-    ;; epc
+    ac-cider
+    auto-complete
     auto-complete
     browse-kill-ring
-    web-mode
+    cider
+    clojure-mode
     elisp-slime-nav ;; allows M-. to elisp source code
-    expand-region
-    multiple-cursors
-    git-gutter
-    yasnippet
-    auto-complete
-    paredit
-    magit
-    groovy-mode
-    scala-mode
     etags-select
+    expand-region
     full-ack
+    git-gutter
+    groovy-mode
     idle-highlight
-    php-mode
+    jedi
     js2-mode
+    magit
+    markdown-mode
+    multiple-cursors
+    paredit
+    php-mode
+    scala-mode
     sparql-mode
-    zenburn-theme
     tern
     tern-auto-complete
-    markdown-mode
+    visual-regexp
+    web-mode
+    yasnippet
+    zenburn-theme
     ))
-(dolist (p benimmanuel/elpa-packages)
+(dolist (p my-elpa-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
@@ -98,17 +87,6 @@
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; Saveplace always - remembers previous position in a file
-(require 'saveplace)
-(setq-default save-place t)
-
-;; Yas snippets always (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
-(require 'yasnippet)
-(yas-global-mode 1)
-
-;; Electric pair mode always please
-(electric-pair-mode 1)
-
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
@@ -118,10 +96,59 @@
 (autoload 'ack-find-same-file "full-ack" nil t)
 (autoload 'ack-find-file "full-ack" nil t)
 
+;; Saveplace - remembers previous position in a file
+(require 'saveplace)
+(setq-default save-place t)
+
+;; Yas snippets (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
+(require 'yasnippet)
+(yas-global-mode 1)
+
 ;; Auto-complete config
+;; TODO: use 
 (ac-config-default)
 
-;;ac-dictionary-diectories
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Miscelaneous functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun align-to-equals (begin end)
+  "Align region to equal signs"
+   (interactive "r")
+   (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
+
+(defun revert-all-buffers ()
+    "Refreshes all open buffers from their respective files."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
+          (revert-buffer t t t) )))
+    (message "Refreshed open files.") )
+
+(defun shift-region (distance)
+  (let ((mark (mark)))
+    (save-excursion
+      (indent-rigidly (region-beginning) (region-end) distance)
+      (push-mark mark t t)
+      (setq deactivate-mark nil))))
+
+(defun shift-right ()
+  (interactive)
+  (shift-region 1))
+
+(defun shift-left ()
+  (interactive)
+  (shift-region -1))
+
+(defun beautify-json ()
+  (interactive)
+  (let ((b (if mark-active (min (point) (mark)) (point-min)))
+        (e (if mark-active (max (point) (mark)) (point-max))))
+    (shell-command-on-region
+     b e "python -mjson.tool" (current-buffer) t)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -170,102 +197,145 @@
 ;;   (interactive)
 ;;   (find-file things-to-know-file))
 
-;; etags-select-find-tag-at-point
 (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
 
-;; cleanup
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-;; Revert all buffers
-(defun revert-all-buffers ()
-    "Refreshes all open buffers from their respective files."
-    (interactive)
-    (dolist (buf (buffer-list))
-      (with-current-buffer buf
-        (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
-          (revert-buffer t t t) )))
-    (message "Refreshed open files.") )
-
-;; Hack for indents
-(defun shift-region (distance)
-  (let ((mark (mark)))
-    (save-excursion
-      (indent-rigidly (region-beginning) (region-end) distance)
-      (push-mark mark t t)
-      (setq deactivate-mark nil))))
-
-(defun shift-right ()
-  (interactive)
-  (shift-region 1))
-
-(defun shift-left ()
-  (interactive)
-  (shift-region -1))
 
 (global-set-key [C-S-right] 'shift-right)
 (global-set-key [C-S-left] 'shift-left)
 
-;; align to equals
-(defun align-to-equals (begin end)
-  "Align region to equal signs"
-   (interactive "r")
-   (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 (global-set-key (kbd "C-x a") 'align-to-equals)
 
-;; beautify json
-(defun beautify-json ()
-  (interactive)
-  (let ((b (if mark-active (min (point) (mark)) (point-min)))
-        (e (if mark-active (max (point) (mark)) (point-max))))
-    (shell-command-on-region
-     b e "python -mjson.tool" (current-buffer) t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; TODO: create a seperate file for each of these (so they can be turned on/off)
 
-(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-  (add-hook hook 'turn-on-elisp-slime-nav-mode))
+(defun my-coding-hook ()
+  "Stuff to apply when coding"
+  (idle-highlight t)
+  (electric-pair-mode 1))
+  
+;; css
+(add-hook 'css-mode-hook 'my-coding-hook)
 
-;; set indent-level for html
+;; html
 (setq sgml-basic-offset 2)
-
-;; set indent-level for js
-(setq js-indent-level 2)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("b06aaf5cefc4043ba018ca497a9414141341cb5a2152db84a9a80020d35644d1" default)))
- '(js2-basic-offset 2)
- '(js2-bounce-indent-p nil))
+(add-hook 'sgml-mode-hook 'my-coding-hook)
 
 ;; javascript
-(add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
+(setq js-indent-level 2)
+(setq js2-basic-offset 2)
+(setq js2-bounce-indent-p nil) ;; hmmmm maybe this should be t?
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
+(add-hook 'js-mode-hook 'my-coding-hook)
+(add-hook 'js2-mode-hook 'my-coding-hook)
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+(eval-after-load 'tern
+   '(progn
+      (require 'tern-auto-complete)
+      (tern-ac-setup)))
+;; Make sure there is a default ".tern-config" in home directory...
+;;   {                                                                              
+;;     "plugins": {                                                                  
+;;       "node": {}                                                                  
+;;     }                                                                             
+;;   }
 
-;; php-mode
+;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.module" . php-mode))
+(add-hook 'php-mode-hook 'my-coding-hook)
 
-;; TODO: move this to a java config
-;; (require 'cl)
-;; (require 'groovy-mode)
-;; (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
+;; Groovy
+(add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
+(add-hook 'groovy-mode 'my-coding-hook)
 
-;; Markdown-mode
+(defun my-lispy-coding-hook ()
+  "Stuff to apply when coding lispy languages"
+  (turn-on-elisp-slime-nav-mode) ;; hmmm perhaps only add this for elisp (not clojure)
+  (enable-paredit-mode))
+
+;; EmacsLisp
+(add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
+(add-hook 'emacs-lisp-mode-hook 'my-lispy-coding-hook)
+
+;; Clojure
+(add-hook 'clojure-mode-hook 'my-coding-hook)
+(add-hook 'clojure-mode-hook 'my-lispy-coding-hook)
+
+;; (defun my-cider-setup ()
+;;   "Stuff to apply if using cider"
+;;   (remove-hook 'nrepl-connected-hook 'cider-display-connected-message) ;; remove annoying startup message
+;;   (require 'ac-cider-compliment)
+;;   (add-hook 'cider-mode-hook 'ac-cider-compliment-setup)
+;;   (eval-after-load "auto-complete"
+;;     '(add-to-list 'ac-modes cider-mode))
+
+;; Python
+(defun annotate-pdb ()
+  (interactive)
+  (highlight-lines-matching-regexp "import pdb")
+  (highlight-lines-matching-regexp "pdb.set_trace()"))
+(defun python-add-breakpoint ()
+  (interactive)
+  (newline-and-indent)
+  (insert "import pdb; pdb.set_trace()")
+  (newline-and-indent)
+  (annotate-pdb))
+(autoload 'jedi:setup "jedi" nil t)
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
+(add-hook 'python-mode-hook
+          (lambda ()
+            (jedi:setup)
+	    (my-coding-hook)
+            (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
+            (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
+            (define-key python-mode-map (kbd "M->") 'jedi:goto-definition-pop-marker)
+            (annotate-pdb)))
+  
+;; Markdown
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+;; Octave
+(add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
+(setq octave-block-offset 4)
+(add-hook 'octave-mode-hook
+	  (lambda ()
+	    (my-coding-hook)
+	    (define-key octave-mode-map (kbd "C-x C-e") 'octave-send-line)
+	    (define-key octave-mode-map (kbd "C-M-x") 'octave-send-block)))
+
+;; Sparql
+(add-to-list 'auto-mode-alist '("\\.sparql$" . sparql-mode))
+(add-to-list 'auto-mode-alist '("\\.rq$" . sparql-mode))
+(add-hook 'sparql-mode-hook
+          (lambda ()
+	    (my-coding-hook)
+            (sparql-set-base-url "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=csv&timeout=30000&debug=on")
+            (define-key sparql-mode-map (kbd "C-c C-c") 'sparql-query-region)
+            (define-key sparql-mode-map (kbd "<s-return>") 'sparql-query-region)))
+
+;;;;;;;;;;;;;;;;;;;
+;; Tempoarary
+;;;;;;;;;;;;;;;;;;;
+
+;; Example of calling a shell command
+(global-set-key (kbd "<s-return>") 'wa-annotate)
+(defvar wa-input "input/drugFams.csv")
+(defvar wa-n 10)
+(defvar wa-output "out.html")
+(defun wa-annotate ()
+  "Call wikipedia annotate script"
+  (interactive)
+  (shell-command
+   (concat "cd /Users/benimmanuel/Desktop/wikipedia-annotate; "
+           "python annotate.py " wa-input " -n " (number-to-string wa-n)
+           " > " wa-output)))
+
