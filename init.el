@@ -1,3 +1,14 @@
+;; TODO:
+;; bindings.el (just language-specific stuff to go now...)
+;; appearance:
+;;   see https://github.com/tmtxt/.emacs.d/blob/master/config/tmtxt-appearance.el
+;; !!! load environment file
+;; tern-mode
+;; python (JEDI)
+;; autocomplete - make sure it works everywhere!
+;; Also check... epl, find-file-in-project (and flx)
+;; webmode
+
 ;; Emacs shell reads ~/.bashrc by default, so on OSX do:
 ;;    ln -s .bash_profile .bashrc
 
@@ -8,20 +19,22 @@
 ;; Don't display welcome message
 (setq inhibit-startup-message t)
 
-;; add Marmalade, Melpa package archive
+;; Color scheme
+(if (window-system)
+    (progn
+      ;(load-theme 'wombat) ;; medium contrast (dark-grey bg) 
+      (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
+      ;(require 'zenburn-theme) ;; low contrast (light grey bg)
+      ))
+
+;; Marmalade, Melpa package archive
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-;;; package.el
-;;; everytime emacs starts, it will automatically check if those packages are
-;;; missing, it will install them automatically
-
-;; (when (not package-archive-contents)
-;;   (package-refresh-contents))
-
-(defvar tmtxt/elpa-packages
+;; Make sure the below packages are available
+(defvar benimmanuel/elpa-packages
   '(
     visual-regexp
     ;;flycheck
@@ -60,18 +73,9 @@
     tern-auto-complete
     markdown-mode
     ))
-
-(dolist (p tmtxt/elpa-packages)
+(dolist (p benimmanuel/elpa-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-;; zenburn-theme
-(if (window-system)
-    (progn
-      ;(load-theme 'wombat)
-      (load-theme 'deeper-blue)
-      ;(require 'zenburn-theme)
-      ))
 
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
@@ -80,12 +84,6 @@
 
 ;; set colours for whitespace-mode
 (setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
-
-;; full-ack
-(autoload 'ack-same "full-ack" nil t)
-(autoload 'ack "full-ack" nil t)
-(autoload 'ack-find-same-file "full-ack" nil t)
-(autoload 'ack-find-file "full-ack" nil t)
 
 ;; prevent files opened from finder opening in new frame
 (setq ns-pop-up-frames nil)
@@ -100,24 +98,30 @@
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; TODO:
-;; bindings.el (just language-specific stuff to go now...)
-;; appearance:
-;;   see https://github.com/tmtxt/.emacs.d/blob/master/config/tmtxt-appearance.el
-;; !!! load environment file
-;; yas (including default snippets, and custom snippets)
-;; js2
-;; tern-mode
-;; python (JEDI)
-;; electric-pair (this mode is included in emacs 24 by default... how to turn it on everywhere?)
-;; autocomplete - make sure it works everywhere!
-;; browsekillring
-;; Also check... epl, find-file-in-project (and flx)
-;; webmode
-
 ;; yas snippets (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;; Elecrtic pair mode always please
+(electric-pair-mode 1)
+
+;; Enable git gutter
+(global-git-gutter-mode +1)
+
+;; full-ack
+(autoload 'ack-same "full-ack" nil t)
+(autoload 'ack "full-ack" nil t)
+(autoload 'ack-find-same-file "full-ack" nil t)
+(autoload 'ack-find-file "full-ack" nil t)
+
+;; use saveplace - remembers previous position in a file
+(require 'saveplace)
+(setq-default save-place t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
+;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To cycle between frames
 (global-set-key "\M-`" 'other-frame)
@@ -142,13 +146,10 @@
 (global-set-key (kbd "<f13>") 'ack-find-file)
 (global-set-key (kbd "<f15>") 'ack)
 
-;; git
+;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
 (global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
-
-;; Enable git gutter mode
-(global-git-gutter-mode +1)
 
 ;; Ensure magit uses HEAD as default for diff
 (defadvice magit-diff (before magit-diff-default-to-head activate)
@@ -174,10 +175,6 @@
 
 ;; cleanup
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-;; use saveplace - remembers previous position in a file
-(require 'saveplace)
-(setq-default save-place t)
 
 ;; Revert all buffers
 (defun revert-all-buffers ()
