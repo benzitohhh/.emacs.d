@@ -85,7 +85,7 @@
 ;; set colours for whitespace-mode
 (setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
 
-;; prevent files opened from finder opening in new frame
+;; Prevent files opened from finder opening in new frame
 (setq ns-pop-up-frames nil)
 
 ;; Don't break lines for me, please
@@ -98,14 +98,18 @@
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; yas snippets (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
+;; Saveplace always - remembers previous position in a file
+(require 'saveplace)
+(setq-default save-place t)
+
+;; Yas snippets always (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
 (require 'yasnippet)
 (yas-global-mode 1)
 
-;; Elecrtic pair mode always please
+;; Electric pair mode always please
 (electric-pair-mode 1)
 
-;; Enable git gutter
+;; Git gutter always
 (global-git-gutter-mode +1)
 
 ;; full-ack
@@ -114,10 +118,10 @@
 (autoload 'ack-find-same-file "full-ack" nil t)
 (autoload 'ack-find-file "full-ack" nil t)
 
-;; use saveplace - remembers previous position in a file
-(require 'saveplace)
-(setq-default save-place t)
+;; Auto-complete config
+(ac-config-default)
 
+;;ac-dictionary-diectories
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -137,10 +141,6 @@
 (global-set-key (kbd "<f5>") 'mc/mark-next-like-this)
 (global-set-key (kbd "<f6>") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
-
-;; Autocomplete
-(global-set-key (kbd "C-.") 'auto-complete)
-(global-set-key (kbd "C-`") 'ac-expand)
 
 ;; ack
 (global-set-key (kbd "<f13>") 'ack-find-file)
