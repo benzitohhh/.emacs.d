@@ -33,8 +33,7 @@
 (defvar my-elpa-packages
   '(
     ;;flycheck
-    ac-cider
-    auto-complete
+    ;;ac-cider
     auto-complete
     browse-kill-ring
     cider
