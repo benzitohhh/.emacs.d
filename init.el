@@ -23,6 +23,9 @@
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
 
+;; Load environment
+(load "~/.emacs.d/init-env.el")
+
 ;; Marmalade, Melpa package archive
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))

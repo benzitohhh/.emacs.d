@@ -3,4 +3,5 @@ ac-comphist.dat
 auto-save-list
 bookmarks
 elpa
+init-env.el
 places

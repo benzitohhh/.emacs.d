@@ -1,0 +1,3 @@
+;; load environment
+;(load "~/.emacs.d/env/not-so-shiny-now" )
+(load "~/.emacs.d/env/aistemos-ben-imac.el" )
