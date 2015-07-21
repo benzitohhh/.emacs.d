@@ -21,12 +21,7 @@
       ;(load-theme 'wombat) ;; medium contrast (dark-grey bg)
       (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
-      )
-  (progn
-     ;(load-theme 'wombat) ;; medium contrast (dark-grey bg)
-    (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
-    ;(require 'zenburn-theme) ;; low contrast (light grey bg)
-    ))
+      ))
 
 ;; Marmalade, Melpa package archive
 (require 'package)
@@ -218,7 +213,8 @@
 
 (defun my-coding-hook ()
   "Stuff to apply when coding"
-  (idle-highlight t)
+  (if (window-system)
+      (idle-highlight t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1))
 
 ;; css
