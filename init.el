@@ -18,10 +18,15 @@
 ;; Color scheme
 (if (window-system)
     (progn
-      ;(load-theme 'wombat) ;; medium contrast (dark-grey bg) 
+      ;(load-theme 'wombat) ;; medium contrast (dark-grey bg)
       (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
-      ))
+      )
+  (progn
+     ;(load-theme 'wombat) ;; medium contrast (dark-grey bg)
+    (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
+    ;(require 'zenburn-theme) ;; low contrast (light grey bg)
+    ))
 
 ;; Marmalade, Melpa package archive
 (require 'package)
@@ -105,7 +110,7 @@
 (yas-global-mode 1)
 
 ;; Auto-complete config
-;; TODO: use 
+;; TODO: use
 (ac-config-default)
 
 
@@ -199,7 +204,7 @@
 
 (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
 
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
+(global-set-key (kbd "C-c n") 'delete-trailing-whitespace)
 
 (global-set-key [C-S-right] 'shift-right)
 (global-set-key [C-S-left] 'shift-left)
@@ -215,7 +220,7 @@
   "Stuff to apply when coding"
   (idle-highlight t)
   (electric-pair-mode 1))
-  
+
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
 
@@ -238,10 +243,10 @@
       (require 'tern-auto-complete)
       (tern-ac-setup)))
 ;; Make sure there is a default ".tern-config" in home directory...
-;;   {                                                                              
-;;     "plugins": {                                                                  
-;;       "node": {}                                                                  
-;;     }                                                                             
+;;   {
+;;     "plugins": {
+;;       "node": {}
+;;     }
 ;;   }
 
 ;; Php
@@ -295,7 +300,7 @@
             (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
             (define-key python-mode-map (kbd "M->") 'jedi:goto-definition-pop-marker)
             (annotate-pdb)))
-  
+
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -338,4 +343,3 @@
    (concat "cd /Users/benimmanuel/Desktop/wikipedia-annotate; "
            "python annotate.py " wa-input " -n " (number-to-string wa-n)
            " > " wa-output)))
-
