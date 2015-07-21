@@ -151,6 +151,20 @@
     (shell-command-on-region
      b e "python -mjson.tool" (current-buffer) t)))
 
+(defadvice magit-diff (before magit-diff-default-to-head activate)
+  "Offer HEAD as first default for magit-diff"
+  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
+
+(defun open-init ()
+  "Open bindings.el"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+(defun open-things-to-know ()
+  "Open thingsToKnow.txt"
+  (interactive)
+  (find-file things-to-know-file)) ;; this var is defined in env file
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -180,24 +194,9 @@
 (global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
 
-;; Ensure magit uses HEAD as default for diff
-(defadvice magit-diff (before magit-diff-default-to-head activate)
-  "Offer HEAD as first default for magit-diff"
-  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
-
-;; open init file
-;; (global-set-key (kbd "<f18>") 'open-init)
-;; (defun open-init ()
-;;   "Open bindings.el"
-;;   (interactive)
-;;   (find-file init-file))
-
-;; things to know
-;; (global-set-key (kbd "<f19>") 'open-things-to-know)
-;; (defun open-things-to-know ()
-;;   "Open thingsToKnow.txt"
-;;   (interactive)
-;;   (find-file things-to-know-file))
+;; shortcuts for some useful files
+(global-set-key (kbd "<f18>") 'open-init)
+(global-set-key (kbd "<f19>") 'open-things-to-know)
 
 (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
 

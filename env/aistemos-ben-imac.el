@@ -28,9 +28,6 @@
 (setq default-directory "~/Desktop/")
 ;(setq default-directory "~/dev/src/eqip")
 
-;; Init file
-(setq init-file "~/.live-packs/immanuel_ben-pack/init.el")
-
 ;; Things to know doc
 (setq things-to-know-file "~/Documents/thingsToKnow/thingsToKnowOhOh.txt")
 
