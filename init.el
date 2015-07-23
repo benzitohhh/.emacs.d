@@ -1,10 +1,7 @@
 ;; TODO:
-;; load environment file (also see open init file functions below)
 ;; js2-mode - fix weid tab behaviour (why adding tabs ot spaces? see risk.js)
 ;; yas - only load for certain modes (i.e. for faster opening of files on commandline)
-;; ack (maybe use ack rather than fullack?)
 ;; autocomplete - make sure it works everywhere!
-;; Also check... epl, find-file-in-project (and flx)
 ;; webmode
 
 ;; Emacs shell reads ~/.bashrc by default, so on OSX do:
@@ -106,8 +103,6 @@
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
-(autoload 'ack-find-same-file "full-ack" nil t)
-(autoload 'ack-find-file "full-ack" nil t)
 
 ;; Saveplace - remembers previous position in a file
 (require 'saveplace)
@@ -197,7 +192,8 @@
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
 ;; ack
-(global-set-key (kbd "<f15>") 'ack)
+(global-set-key (kbd "<f14>") 'ack)      ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
+(global-set-key (kbd "<f15>") 'ack-same) ;; Like ack, but restrict results to files of type associated with current mode
 
 ;; Find file in project
 (global-set-key (kbd "<f13>") 'find-file-in-project)
