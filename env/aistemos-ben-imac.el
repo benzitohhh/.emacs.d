@@ -1,5 +1,5 @@
 ;; Set default emacs C source directory
-;(setq source-directory "/usr/local/emacs/emacs-24.3")
+(setq source-directory "/Applications/emacs-24.5-src")
 
 ;; Add /usr/local/bin to the path (otherwise emacs can't find stuff installed there)
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
