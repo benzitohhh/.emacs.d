@@ -1,6 +1,8 @@
 ;; TODO:
 ;; load environment file (also see open init file functions below)
+;; js2-mode - fix weid tab behaviour (why adding tabs ot spaces? see risk.js)
 ;; yas - only load for certain modes (i.e. for faster opening of files on commandline)
+;; ack (maybe use ack rather than fullack?)
 ;; autocomplete - make sure it works everywhere!
 ;; Also check... epl, find-file-in-project (and flx)
 ;; webmode
@@ -44,6 +46,7 @@
     elisp-slime-nav ;; allows M-. to elisp source code
     etags-select
     expand-region
+    find-file-in-project
     full-ack
     git-gutter
     groovy-mode
@@ -91,6 +94,14 @@
 
 ;; Git gutter always
 (global-git-gutter-mode +1)
+
+;; Ido mode please
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+;; Find file in project (do not search the below directories)
+(setq ffip-prune-patterns '(".git" ".hg" "*.svn" "node_modules" ".idea" "build" "dist"))
 
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
@@ -186,8 +197,11 @@
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
 ;; ack
-(global-set-key (kbd "<f13>") 'ack-find-file)
 (global-set-key (kbd "<f15>") 'ack)
+
+;; Find file in project
+(global-set-key (kbd "<f13>") 'find-file-in-project)
+(global-set-key (kbd "C-x f") 'find-file-in-project)
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
