@@ -73,6 +73,9 @@
 (prefer-coding-system 'utf-8-unix)
 (set-default default-buffer-file-coding-system 'utf-8-unix)
 
+;; Spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+
 ;; set colours for whitespace-mode
 (setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
 
@@ -228,6 +231,13 @@
       (idle-highlight t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1))
 
+(defun set-indent-level-web (size)
+  "Set the indent level for js/html/css"
+  (interactive "nEnter indent level (for js/html/css): ")
+  (setq js-indent-level size)
+  (setq js2-basic-offset size)
+  (setq sgml-basic-offset size))
+
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
 
@@ -238,7 +248,7 @@
 ;; javascript
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
-(setq js2-bounce-indent-p nil) ;; hmmmm maybe this should be t?
+(setq js2-bounce-indent-p t) ;; hmmmm maybe this should be t? Or nil?
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
 (add-hook 'js-mode-hook 'my-coding-hook)
