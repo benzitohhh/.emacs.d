@@ -1,5 +1,4 @@
 ;; TODO:
-;; js2-mode - fix weid tab behaviour (why adding tabs ot spaces? see risk.js)
 ;; yas - only load for certain modes (i.e. for faster opening of files on commandline)
 ;; autocomplete - make sure it works everywhere!
 ;; webmode
@@ -75,6 +74,9 @@
 
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
+
+;; When a region is selected, delete will delete it
+(delete-selection-mode 1)
 
 ;; set colours for whitespace-mode
 (setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
