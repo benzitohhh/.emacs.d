@@ -75,7 +75,7 @@
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 
-;; When a region is selected, delete will delete it
+;; When a region is selected, typing will overwrite it
 (delete-selection-mode 1)
 
 ;; set colours for whitespace-mode
