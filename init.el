@@ -105,6 +105,11 @@
 ;; Find file in project (do not search the below directories)
 (setq ffip-prune-patterns '(".git" ".hg" "*.svn" "node_modules" ".idea" "build" "dist"))
 
+;; Recent files
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
@@ -208,9 +213,6 @@
 ;; To cycle between frames
 (global-set-key "\M-`" 'other-frame)
 
-;; find file (prompts for start dir, then searches recursively)
-(global-set-key "\C-x\ f" 'find-name-dired)
-
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
@@ -220,13 +222,14 @@
 (global-set-key (kbd "<f6>") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
-;; ack
-(global-set-key (kbd "<f14>") 'ack)      ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
-(global-set-key (kbd "<f15>") 'ack-same) ;; Like ack, but restrict results to files of type associated with current mode
-
-;; Find file in project
+;; Find files
 (global-set-key (kbd "<f13>") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'find-file-in-project)
+(global-set-key (kbd "<f14>") 'recentf-open-files)
+
+;; ack
+(global-set-key (kbd "<f15>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
+                                    ;; Also don't forget... ack-same. This restricts results to files of type associated with current mode
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
