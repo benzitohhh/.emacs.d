@@ -122,7 +122,7 @@
 (global-auto-complete-mode t)
 (setq ac-auto-show-menu t)
 (setq ac-dwim t)
-(setq ac-use-menu-map nil) ;; this enables extra keys (for example C-s to filter results)
+(setq ac-use-menu-map t) ;; this enables extra keys (for example C-s to filter results)
 (setq ac-quick-help-delay 1)
 (setq ac-quick-help-height 60)
 (setq ac-disable-inline t)
