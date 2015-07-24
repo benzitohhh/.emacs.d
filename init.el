@@ -277,8 +277,8 @@
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
 (setq js2-bounce-indent-p t) ;; hmmmm maybe this should be t? Or nil?
-(add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js2-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
