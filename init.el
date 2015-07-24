@@ -1,6 +1,4 @@
 ;; TODO:
-;; yas - only load for certain modes (i.e. for faster opening of files on commandline)
-;; autocomplete - make sure it works everywhere!
 ;; webmode
 
 ;; Emacs shell reads ~/.bashrc by default, so on OSX do:
@@ -140,10 +138,11 @@
                ac-source-words-in-same-mode-buffers
                ac-source-semantic
                ac-source-yasnippet))
-(dolist (mode '(magit-log-edit-mode log-edit-mode org-mode text-mode haml-mode
-                sass-mode yaml-mode csv-mode espresso-mode haskell-mode
-                html-mode nxml-mode sh-mode smarty-mode clojure-mode
-                lisp-mode textile-mode markdown-mode tuareg-mode))
+(dolist (mode '(magit-log-edit-mode yaml-mode
+                ;; text-mode
+                yaml-mode csv-mode
+                html-mode nxml-mode sh-mode clojure-mode
+                lisp-mode  markdown-mode))
   (add-to-list 'ac-modes mode))
 (define-key ac-completing-map (kbd "C-M-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-M-p") 'ac-previous)
