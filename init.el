@@ -298,6 +298,13 @@
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
 (add-hook 'php-mode-hook 'my-coding-hook)
 
+;; Web mode
+;; (require 'web-mode)
+;; (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+
 ;; Groovy
 (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
 (add-hook 'groovy-mode 'my-coding-hook)
