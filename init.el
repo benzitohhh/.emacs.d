@@ -318,6 +318,7 @@
 (defun my-lispy-coding-hook ()
   "Stuff to apply when coding lispy languages"
   (turn-on-elisp-slime-nav-mode) ;; hmmm perhaps only add this for elisp (not clojure)
+  (show-paren-mode)
   (enable-paredit-mode))
 
 ;; EmacsLisp
