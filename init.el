@@ -204,6 +204,12 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -317,6 +323,8 @@
 ;; EmacsLisp
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-lispy-coding-hook)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; Clojure
 (add-hook 'clojure-mode-hook 'my-coding-hook)
