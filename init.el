@@ -313,7 +313,12 @@
 
 ;; Groovy
 (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
-(add-hook 'groovy-mode 'my-coding-hook)
+(add-hook 'groovy-mode-hook 'my-coding-hook)
+
+;; Scala
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.sbt$" . scala-mode))
+(add-hook 'scala-mode-hook 'my-coding-hook)
 
 (defun my-lispy-coding-hook ()
   "Stuff to apply when coding lispy languages"
