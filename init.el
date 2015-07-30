@@ -320,6 +320,10 @@
 (add-to-list 'auto-mode-alist '("\\.sbt$" . scala-mode))
 (add-hook 'scala-mode-hook 'my-coding-hook)
 
+;; Shell script
+(add-to-list 'auto-mode-alist '("\\routes$" . shell-script-mode))
+(add-hook 'shell-script-mode-hook 'my-coding-hook)
+
 (defun my-lispy-coding-hook ()
   "Stuff to apply when coding lispy languages"
   (turn-on-elisp-slime-nav-mode) ;; hmmm perhaps only add this for elisp (not clojure)
