@@ -190,10 +190,6 @@
     (shell-command-on-region
      b e "python -mjson.tool" (current-buffer) t)))
 
-(defadvice magit-diff (before magit-diff-default-to-head activate)
-  "Offer HEAD as first default for magit-diff"
-  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
-
 (defun open-init ()
   "Open bindings.el"
   (interactive)
@@ -238,6 +234,7 @@
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
 
