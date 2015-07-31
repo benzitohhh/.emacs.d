@@ -101,7 +101,8 @@
 (ido-mode 1)
 
 ;; Find file in project (do not search the below directories)
-(setq ffip-prune-patterns '(".git" ".hg" "*.svn" "node_modules" ".idea" "build" "dist"))
+(setq ffip-find-options "-not -iwholename '*/frontend/target/*'")
+(add-to-list 'ffip-prune-patterns ".target")
 
 ;; Recent files
 (require 'recentf)
@@ -190,10 +191,6 @@
     (shell-command-on-region
      b e "python -mjson.tool" (current-buffer) t)))
 
-(defadvice magit-diff (before magit-diff-default-to-head activate)
-  "Offer HEAD as first default for magit-diff"
-  (interactive (list (magit-read-rev-range "Diff" "HEAD"))))
-
 (defun open-init ()
   "Open bindings.el"
   (interactive)
@@ -204,6 +201,12 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -232,6 +235,7 @@
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
 
@@ -307,16 +311,28 @@
 
 ;; Groovy
 (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
-(add-hook 'groovy-mode 'my-coding-hook)
+(add-hook 'groovy-mode-hook 'my-coding-hook)
+
+;; Scala
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.sbt$" . scala-mode))
+(add-hook 'scala-mode-hook 'my-coding-hook)
+
+;; Shell script
+(add-to-list 'auto-mode-alist '("\\routes$" . shell-script-mode))
+(add-hook 'shell-script-mode-hook 'my-coding-hook)
 
 (defun my-lispy-coding-hook ()
   "Stuff to apply when coding lispy languages"
   (turn-on-elisp-slime-nav-mode) ;; hmmm perhaps only add this for elisp (not clojure)
+  (show-paren-mode)
   (enable-paredit-mode))
 
 ;; EmacsLisp
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-lispy-coding-hook)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; Clojure
 (add-hook 'clojure-mode-hook 'my-coding-hook)
