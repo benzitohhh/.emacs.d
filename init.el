@@ -101,7 +101,8 @@
 (ido-mode 1)
 
 ;; Find file in project (do not search the below directories)
-(setq ffip-prune-patterns '(".git" ".hg" "*.svn" "node_modules" ".idea" "build" "dist"))
+(setq ffip-find-options "-not -iwholename '*/frontend/target/*'")
+(add-to-list 'ffip-prune-patterns ".target")
 
 ;; Recent files
 (require 'recentf)
