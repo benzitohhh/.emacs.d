@@ -114,8 +114,7 @@
        '("*/frontend/target/*"
          "*/.target/*"
          "*/.build/*"
-         "*/build/*"
-         )
+         "*/build/*")
        " "))
 
 ;; Recent files
