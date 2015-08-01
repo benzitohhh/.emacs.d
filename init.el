@@ -101,8 +101,15 @@
 (ido-mode 1)
 
 ;; Find file in project (do not search the below directories)
-(setq ffip-find-options "-not -iwholename '*/frontend/target/*'")
-(add-to-list 'ffip-prune-patterns ".target")
+(setq ffip-find-options
+      (mapconcat
+       (lambda (pat) (format "-not -iwholename '%s'" pat))
+       '("*/frontend/target/*"
+         "*/.target/*"
+         "*/.build/*"
+         "*/build/*"
+         )
+       " "))
 
 ;; Recent files
 (require 'recentf)
@@ -225,8 +232,10 @@
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
 ;; Find files
+(global-set-key (kbd "<f3>") 'find-file-in-project)
 (global-set-key (kbd "<f13>") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'find-file-in-project)
+(global-set-key (kbd "<f4>") 'recentf-open-files)
 (global-set-key (kbd "<f14>") 'recentf-open-files)
 
 ;; ack
