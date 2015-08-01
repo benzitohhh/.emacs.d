@@ -41,6 +41,7 @@
     etags-select
     expand-region
     find-file-in-project
+    flx-ido
     full-ack
     git-gutter
     groovy-mode
@@ -95,10 +96,16 @@
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
-;; Ido mode please
+;; Ido mode please (with flx - fuzzy matching)
+(require 'flx-ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+(setq flx-ido-use-faces t)
 
 ;; Find file in project (do not search the below directories)
 (setq ffip-find-options
