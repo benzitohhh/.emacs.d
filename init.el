@@ -238,10 +238,8 @@
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
 ;; Find files
-(global-set-key (kbd "<f3>") 'find-file-in-project)
 (global-set-key (kbd "<f13>") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'find-file-in-project)
-(global-set-key (kbd "<f4>") 'recentf-open-files)
 (global-set-key (kbd "<f14>") 'recentf-open-files)
 
 ;; ack
