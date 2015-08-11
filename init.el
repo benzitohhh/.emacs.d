@@ -117,6 +117,9 @@
          "*/build/*")
        " "))
 
+;; Find file in project (set top-level dir)
+;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
+
 ;; Recent files
 (require 'recentf)
 (recentf-mode 1)
