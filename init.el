@@ -347,6 +347,7 @@
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-lispy-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(define-key emacs-lisp-mode-map (kbd "C-x C-j") 'eval-print-last-sexp)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; Clojure
