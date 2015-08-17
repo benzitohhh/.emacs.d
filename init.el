@@ -116,6 +116,8 @@
          "*/.build/*"
          "*/build/*")
        " "))
+;; Find file in project root dir (most of the time this is not necessary)
+;(defun ffip-project-root () "~/Desktop/labs/ui-v2")
 
 ;; Recent files
 (require 'recentf)
