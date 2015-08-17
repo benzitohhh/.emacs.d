@@ -112,6 +112,8 @@
       (mapconcat
        (lambda (pat) (format "-not -iwholename '%s'" pat))
        '("*/frontend/target/*"
+         "*target/scala-*"
+         "*target/universal*"
          "*/.target/*"
          "*/.build/*"
          "*/build/*")
