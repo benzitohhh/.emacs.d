@@ -4,6 +4,16 @@
 var React = require('react');
 
 var ${1:name} = React.createClass({
+  getInitialState: function() {},
+  getDefaultProps: function() {},
+  componentWillMount: function() {},
+  componentDidMount: function() {},
+  componentWillReceiveProps: function(nextProps) {},
+  shouldComponentUpdate: function(nextProps, nextState) {},
+  componentWillUpdate: function(nextProps, nextState) {},
+  componentDidUpdate: function(prevProps, prevState) {},
+  componentWillUnmount: function() {},
+
   render: function() {
     return (
       <div></div>$0
