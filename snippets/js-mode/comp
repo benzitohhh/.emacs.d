@@ -4,8 +4,8 @@
 var React = require('react');
 
 var ${1:name} = React.createClass({
-  getInitialState: function() {},
-  getDefaultProps: function() {},
+  getInitialState: function() { return {}; },
+  getDefaultProps: function() { return {}; },
   componentWillMount: function() {},
   componentDidMount: function() {},
   componentWillReceiveProps: function(nextProps) {},
@@ -21,4 +21,4 @@ var ${1:name} = React.createClass({
   }
 });
 
-module.exports = {$1};
+module.exports = $1;
