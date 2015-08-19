@@ -112,10 +112,16 @@
       (mapconcat
        (lambda (pat) (format "-not -iwholename '%s'" pat))
        '("*/frontend/target/*"
+         "*target/scala-*"
+         "*target/universal*"
          "*/.target/*"
          "*/.build/*"
          "*/build/*")
        " "))
+;; For per-project settings, use 'per-directory' local variables: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html#Directory-Variables
+;; Specifically...
+;;   add a '.dir-locals.el' file to a dir, containing something like:
+;;      ((nil . ((ffip-project-root . "~/Desktop/labs/ui-v2"))))
 
 ;; Find file in project (set top-level dir)
 ;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
@@ -348,6 +354,7 @@
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-lispy-coding-hook)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(define-key emacs-lisp-mode-map (kbd "C-x C-j") 'eval-print-last-sexp)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; Clojure

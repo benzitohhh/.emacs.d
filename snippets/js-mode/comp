@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# name: React component
+# --
+var React = require('react');
+
+var ${1:name} = React.createClass({
+  getInitialState: function() { return {}; },
+  getDefaultProps: function() { return {}; },
+  componentWillMount: function() {},
+  componentDidMount: function() {},
+  componentWillReceiveProps: function(nextProps) {},
+  shouldComponentUpdate: function(nextProps, nextState) {},
+  componentWillUpdate: function(nextProps, nextState) {},
+  componentDidUpdate: function(prevProps, prevState) {},
+  componentWillUnmount: function() {},
+
+  render: function() {
+    return (
+      <div></div>$0
+    );
+  }
+});
+
+module.exports = $1;
