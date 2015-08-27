@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# name: require (CommonJS)
+# --
+var ${1:name} = require('src/component/$1');$0
