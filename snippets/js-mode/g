@@ -1,0 +1,5 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: anonymous function (inline)
+# contributor: Ben Immanuel 
+# --
+function(${1:args}) {$0}
