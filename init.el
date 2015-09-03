@@ -126,14 +126,15 @@
 ;; Find file in project (set top-level dir)
 ;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
 
+;; full-ack
+(autoload 'ack-same "full-ack" nil t)
+(autoload 'ack "full-ack" nil t)
+(setq ack-prompt-for-directory t) ;; always ask for directory before doing an ack search
+
 ;; Recent files
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
-
-;; full-ack
-(autoload 'ack-same "full-ack" nil t)
-(autoload 'ack "full-ack" nil t)
 
 ;; Saveplace - remembers previous position in a file
 (require 'saveplace)
