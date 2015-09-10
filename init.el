@@ -75,14 +75,14 @@
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 
+;; set colours for whitespace-mode (and which things whitespace-cleanup should clean)
+(setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark trailing)))
+
 ;; Fix whitespace on save, but only if the file was clean
 (global-whitespace-cleanup-mode)
 
 ;; When a region is selected, typing will overwrite it
 (delete-selection-mode 1)
-
-;; set colours for whitespace-mode
-(setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
 
 ;; Prevent files opened from finder opening in new frame
 (setq ns-pop-up-frames nil)
@@ -231,8 +231,8 @@
 (defun kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
-    (mapc 'kill-buffer 
-          (delq (current-buffer) 
+    (mapc 'kill-buffer
+          (delq (current-buffer)
                 (remove-if-not 'buffer-file-name (buffer-list)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
