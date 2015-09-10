@@ -59,6 +59,7 @@
     tern-auto-complete
     visual-regexp
     web-mode
+    whitespace-cleanup-mode
     yasnippet
     zenburn-theme
     ))
@@ -73,6 +74,9 @@
 
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
+
+;; Fix whitespace on save, but only if the file was clean
+(global-whitespace-cleanup-mode)
 
 ;; When a region is selected, typing will overwrite it
 (delete-selection-mode 1)
