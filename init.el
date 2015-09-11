@@ -322,6 +322,9 @@
 ;;       "node": {}
 ;;     }
 ;;   }
+(defun delete-tern-process ()
+  (interactive)
+  (delete-process "Tern"))
 
 ;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
