@@ -58,6 +58,7 @@
     tern
     tern-auto-complete
     visual-regexp
+    visual-regexp-steroids
     web-mode
     whitespace-cleanup-mode
     yasnippet
@@ -134,6 +135,13 @@
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
 (setq ack-prompt-for-directory t) ;; always ask for directory before doing an ack search
+
+;; Visual regex
+(require 'visual-regexp)
+;(require 'visual-regexp-steroids) ;; for Python-style regex
+(define-key global-map (kbd "C-c r") 'vr/replace)
+(define-key global-map (kbd "C-c q") 'vr/query-replace)
+(define-key global-map (kbd "C-c m") 'vr/mc-mark) ;; for multiple cursors
 
 ;; Recent files
 (require 'recentf)
@@ -322,9 +330,21 @@
 ;;       "node": {}
 ;;     }
 ;;   }
-(defun delete-tern-process ()
+(defun tern-delete-process ()
   (interactive)
-  (delete-process "Tern"))
+  (if (get-process "Tern")
+      (delete-process "Tern")))
+
+(defun tern-debug ()
+  "On the commandline:  killall node; tern --verbose --port 50888. Then call this function."
+  (interactive)
+  (tern-delete-process)
+  (tern-use-server 50888 "127.0.0.1"))
+
+;; To debug tern:
+;;   a) M-x tern-debug
+;;   b) Start server on commandline:  killall node; tern --verbose --port 50888
+;;   c) Do stuff
 
 ;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
