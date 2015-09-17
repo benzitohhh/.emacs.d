@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# name: <div></div>
+# --
+<div${1:}>${2:}</div>$0
