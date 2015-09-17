@@ -77,7 +77,7 @@
 (setq-default indent-tabs-mode nil)
 
 ;; set colours for whitespace-mode (and which things whitespace-cleanup should clean)
-(setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark trailing)))
+(setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark trailing empty)))
 
 ;; Fix whitespace on save, but only if the file was clean
 (global-whitespace-cleanup-mode)
