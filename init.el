@@ -419,6 +419,10 @@
             (define-key python-mode-map (kbd "M->") 'jedi:goto-definition-pop-marker)
             (annotate-pdb)))
 
+;; Haskell
+(custom-set-variables
+ '(haskell-mode-hook '(turn-on-haskell-simple-indent)))
+
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
