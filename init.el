@@ -45,6 +45,7 @@
     full-ack
     git-gutter
     groovy-mode
+    haskell-mode
     idle-highlight
     jedi
     js2-mode
