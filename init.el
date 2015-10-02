@@ -49,6 +49,7 @@
     idle-highlight
     jedi
     js2-mode
+    less-css-mode
     magit
     markdown-mode
     multiple-cursors
@@ -308,6 +309,7 @@
 
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
+(add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; html
 (setq sgml-basic-offset 2)
