@@ -103,6 +103,9 @@
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
+;; Magit, always show word differences
+(setq magit-diff-refine-hunk 'all)
+
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
 (setq ido-enable-flex-matching t)
