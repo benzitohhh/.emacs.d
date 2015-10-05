@@ -100,11 +100,16 @@
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
 
+;; Set window to split vertically by default
+(setq split-height-threshold nil)
+(setq split-width-threshold 80)
+
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
-;; Magit, always show word differences
-(setq magit-diff-refine-hunk 'all)
+;; Magit
+(setq magit-diff-refine-hunk 'all) ;; show word-level diffs
+(setq magit-push-always-verify nil) ;; no verify please
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
