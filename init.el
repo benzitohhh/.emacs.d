@@ -110,6 +110,7 @@
 ;; Magit
 (setq magit-diff-refine-hunk 'all) ;; show word-level diffs
 (setq magit-push-always-verify nil) ;; no verify please
+(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
