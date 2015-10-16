@@ -19,6 +19,10 @@
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
 
+;; Highlight current line
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#222536")
+
 ;; Load environment
 (load "~/.emacs.d/init-env.el")
 
