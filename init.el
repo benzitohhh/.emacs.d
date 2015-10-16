@@ -21,7 +21,7 @@
 
 ;; Highlight current line (can look weird with modes that highlight text, such as rainbow-mode, magit etc...)
 ;; (global-hl-line-mode 1)
-;; (set-face-background 'hl-line "#222536")
+(set-face-background 'hl-line "#222536")
 
 ;; Load environment
 (load "~/.emacs.d/init-env.el")
