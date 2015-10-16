@@ -19,9 +19,9 @@
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
 
-;; Highlight current line
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#222536")
+;; Highlight current line (can look weird with modes that highlight text, such as rainbow-mode, magit etc...)
+;; (global-hl-line-mode 1)
+;; (set-face-background 'hl-line "#222536")
 
 ;; Load environment
 (load "~/.emacs.d/init-env.el")
@@ -59,6 +59,7 @@
     multiple-cursors
     paredit
     php-mode
+    rainbow-mode
     scala-mode
     sparql-mode
     tern
@@ -322,6 +323,7 @@
 
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
+(add-hook 'css-mode-hook (lambda () (rainbow-mode t)))
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; html
