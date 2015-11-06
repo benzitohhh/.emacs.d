@@ -346,7 +346,8 @@
 ;; Make sure there is a default ".tern-config" in home directory...
 ;;   {
 ;;     "plugins": {
-;;       "node": {}
+;;       "node": {},
+;;       "es_modules": {}
 ;;     }
 ;;   }
 (defun tern-delete-process ()
