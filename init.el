@@ -128,6 +128,8 @@
 (setq ido-use-faces nil)
 (setq flx-ido-use-faces t)
 
+;; Find file in project: for now, use version 3.5 (as version 3.6 - 3.8 are extremely slow).
+;;                       i.e. you can install 3.5 via pack-list-packages, then need to delete the newer one
 ;; Find file in project (do not search the below directories)
 (setq ffip-find-options
       (mapconcat
@@ -338,7 +340,8 @@
 ;; (set-face-attribute 'js2-function-call nil :foreground "light goldenrod") ;; hmmm probably not useful
 ;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful
 ;;(add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-jsx-mode)) ;; use this jsx
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-jsx-mode)) ;; use this for jsx
+(add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
