@@ -19,6 +19,12 @@
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
 
+;; Set font size
+;;;; M-x describe-font to see current font string
+;; (set-frame-font "-*-Menlo-normal-normal-normal-*-20-*-*-*-m-0-iso10646-1" nil t)
+;; (add-to-list 'default-frame-alist '(font . "-*-Menlo-normal-normal-normal-*-20-*-*-*-m-0-iso10646-1" ))
+;; (set-face-attribute 'default t :font "-*-Menlo-normal-normal-normal-*-20-*-*-*-m-0-iso10646-1" )
+
 ;; Highlight current line (can look weird with modes that highlight text, such as rainbow-mode, magit etc...)
 ;; (global-hl-line-mode 1)
 ;; (set-face-background 'hl-line "#222536")
