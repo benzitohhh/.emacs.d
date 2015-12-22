@@ -1,10 +1,6 @@
 ;; Set default emacs C source directory
 (setq source-directory "/usr/src/emacs-24.5-2.src/emacs-24.5")
 
-;; Add /usr/local/bin to the path (otherwise emacs can't find stuff installed there)
-;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-;(setq exec-path (append exec-path '("/usr/local/bin")))
-
 ;; git executable
 ;; Git is unnnusably slow on emacs/cygwin, because cygwin is slow at starting external processes.
 ;; Not much that we can do here....

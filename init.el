@@ -1,6 +1,3 @@
-;; TODO:
-;; webmode
-
 ;; Emacs shell reads ~/.bashrc by default, so on OSX do:
 ;;    ln -s .bash_profile .bashrc
 
@@ -18,6 +15,10 @@
       (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
+
+;; Add /usr/local/bin to front of the path and exec-path (otherwise emacs can't find stuff installed there)
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "/usr/local/bin")
 
 ;; Set font size
 ;;;; M-x describe-font to see current font string
@@ -163,6 +164,7 @@
 ;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
 
 ;; Grep default
+(require 'grep)
 (grep-apply-setting 'grep-command "grep -nHR --include \\*.js -e somePattern .")
 
 ;; full-ack
@@ -342,6 +344,7 @@
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
+(setq compile-command "make clean; ctags -e -R; make -k;")
 (add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
