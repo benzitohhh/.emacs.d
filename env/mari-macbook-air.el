@@ -9,7 +9,7 @@
 (add-to-list 'load-path "/usr/local/git/contrib/emacs")
 
 ;; full-ack
-;(setq ack-executable "/Users/immanuel_ben/bin/ack")
+(setq ack-executable "~/bin/ack")
 
 ;; default directory
 (setq default-directory "~/Desktop/")
