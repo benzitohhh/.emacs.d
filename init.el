@@ -162,6 +162,9 @@
 ;; Find file in project (set top-level dir)
 ;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
 
+;; Grep default
+(grep-apply-setting 'grep-command "grep -nHR --include \\*.js -e somePattern .")
+
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
