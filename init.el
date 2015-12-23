@@ -112,8 +112,8 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 
 ;; Set window to split vertically by default
-(setq split-height-threshold nil)
-(setq split-width-threshold 80)
+;; (setq split-height-threshold nil)
+;; (setq split-width-threshold 80)
 
 ;; Git gutter always
 (global-git-gutter-mode +1)
@@ -329,6 +329,9 @@
   (setq js-indent-level size)
   (setq js2-basic-offset size)
   (setq sgml-basic-offset size))
+
+;; C and C++
+(setq c-basic-offset 4)
 
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
