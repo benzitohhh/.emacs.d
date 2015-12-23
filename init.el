@@ -333,6 +333,12 @@
 ;; C and C++
 (setq c-basic-offset 4)
 
+;; Makefile-mode
+(add-hook 'makefile-mode-hook
+          (lambda ()
+            (setq-local indent-tabs-mode nil)
+            (setq-local tab-width 4)))
+
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
 (add-hook 'css-mode-hook (lambda () (rainbow-mode t)))
