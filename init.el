@@ -332,11 +332,16 @@
 
 ;; C and C++
 (setq c-basic-offset 4)
+(add-hook 'c-mode-hook
+          (lambda ()
+	    (my-coding-hook)
+            (define-key c-mode-map (kbd "C-x x") 'compile)
+            (define-key c-mode-map (kbd "<s-return>") 'compile)))
 
 ;; Makefile-mode
 (add-hook 'makefile-mode-hook
           (lambda ()
-            (setq-local indent-tabs-mode nil)
+            (setq-local indent-tabs-mode t) ;; Make needs to use tabs, not spaces
             (setq-local tab-width 4)))
 
 ;; css
