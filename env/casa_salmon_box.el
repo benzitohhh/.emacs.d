@@ -8,6 +8,13 @@
 ;; git executable (hmmm seems git is slow on windows/cygwin)
 (setq magit-git-executable "/usr/bin/git")
 
+;; Windows workarounds: make sure mouse copies region, and click to paste works
+(setq mouse-drag-copy-region t)
+(global-set-key [mouse-2] 'mouse-yank-at-click)
+
+;; Things to know doc
+(setq things-to-know-file "~/thingsToKnow/thingsToKnowOhOh.txt")
+
 ;; tag tables
 ;(setq tags-table-list '("/opt/local/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/site-packages/django/TAGS"))
 

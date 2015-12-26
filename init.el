@@ -330,8 +330,11 @@
   (setq js2-basic-offset size)
   (setq sgml-basic-offset size))
 
-;; C and C++
+;; C defaults (i.e. also applies to other modes)
 (setq c-basic-offset 4)
+(c-set-offset 'case-label '+) ;; hmmmm this is not working. Why???? align switch statements nicely
+
+;; C and C++
 (add-hook 'c-mode-hook
           (lambda ()
 	    (my-coding-hook)
