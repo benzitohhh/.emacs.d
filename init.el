@@ -330,15 +330,17 @@
   (setq js2-basic-offset size)
   (setq sgml-basic-offset size))
 
-;; C defaults (i.e. also applies to other modes)
-(setq c-basic-offset 4)
-(c-set-offset 'case-label '+) ;; hmmmm this is not working. Why???? align switch statements nicely
-
 ;; C and C++
+(setq c-basic-offset 4)
+(c-set-offset 'case-label '+)
 (add-hook 'c-mode-hook
           (lambda ()
 	    (my-coding-hook)
+            ;; When compile is called, it asks for a compile command...
+            ;; Simple compile command: "make -k"
+            ;; More complex compile command: "rm -rf TAGS; ctags -a -e -f TAGS ex17.c; make clean; make -k ex17; ./ex17;"
             (define-key c-mode-map (kbd "C-x x") 'compile)
+            (define-key c-mode-map (kbd "M-RET") 'compile)
             (define-key c-mode-map (kbd "<s-return>") 'compile)))
 
 ;; Makefile-mode
@@ -360,6 +362,7 @@
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
 (setq js2-bounce-indent-p t) ;; hmmmm maybe this should be t? Or nil?
+(setq js2-indent-switch-body t) ;; indent switch statements nicely
 (setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
 ;; (set-face-attribute 'js2-function-call nil :foreground "light goldenrod") ;; hmmm probably not useful
 ;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful

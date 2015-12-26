@@ -1,11 +1,13 @@
 ;; Set default emacs C source directory
-(setq source-directory "/usr/src/emacs-24.5-2.src")
+(setq source-directory "/usr/src/emacs-24.5-2.src/emacs-24.5")
 
 ;; Add /usr/local/bin to the path (otherwise emacs can't find stuff installed there)
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-(setq exec-path (append exec-path '("/usr/local/bin")))
+;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+;(setq exec-path (append exec-path '("/usr/local/bin")))
 
-;; git executable (hmmm seems git is slow on windows/cygwin)
+;; git executable
+;; Git is unnnusably slow on emacs/cygwin, because cygwin is slow at starting external processes.
+;; Not much that we can do here....
 (setq magit-git-executable "/usr/bin/git")
 
 ;; Windows workarounds: make sure mouse copies region, and click to paste works
