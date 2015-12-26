@@ -150,6 +150,9 @@
 ;;   add a '.dir-locals.el' file to a dir, containing something like:
 ;;      ((nil . ((ffip-project-root . "~/Desktop/labs/ui-v2"))))
 
+;; Use ibuffer instead of list-buffers
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;; Find file in project: use ido mode ui
 (setq ffip-prefer-ido-mode t)
 
