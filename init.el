@@ -509,7 +509,7 @@
 ;;;;;;;;;;;;;;;;;;;
 
 ;; Example of calling a shell command
-(global-set-key (kbd "<s-return>") 'wa-annotate)
+;(global-set-key (kbd "<s-return>") 'wa-annotate)
 (defvar wa-input "input/drugFams.csv")
 (defvar wa-n 10)
 (defvar wa-output "out.html")
