@@ -342,7 +342,7 @@
             (setq comment-start "//" comment-end "") ;; comments with //, not /* */
             ;; When compile is called, it asks for a compile command...
             ;;   Simple compile command: "make -k"
-            ;;   More complex compile command: "rm -rf TAGS; ctags -a -e -f TAGS ex17.c; make clean; make -k ex17; ./ex17;"
+            ;;   More complex compile command: "ctags -e -R; make clean; make -k ex17; ./ex17;"
             (define-key c-mode-map (kbd "C-x x") 'compile)
             (define-key c-mode-map (kbd "M-RET") 'compile)
             (define-key c-mode-map (kbd "<s-return>") 'compile)))
