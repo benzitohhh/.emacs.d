@@ -56,7 +56,7 @@
     git-gutter
     groovy-mode
     haskell-mode
-    idle-highlight
+    idle-highlight-mode
     jedi
     js2-mode
     less-css-mode
@@ -323,7 +323,7 @@
 (defun my-coding-hook ()
   "Stuff to apply when coding"
   (if (window-system)
-      (idle-highlight t)) ;; idle-highlight looks weird on the commandline
+      (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1))
 
 (defun set-indent-level-web (size)
@@ -336,7 +336,7 @@
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
-(add-hook 'c-mode-hook
+(add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
             (setq comment-start "//" comment-end "") ;; comments with //, not /* */
