@@ -115,6 +115,9 @@
 ;; (setq split-height-threshold nil)
 ;; (setq split-width-threshold 80)
 
+;; No backup files please (those filename.ext~ files)
+(setq make-backup-files nil)
+
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
