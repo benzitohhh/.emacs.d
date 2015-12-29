@@ -359,6 +359,7 @@
 ;; Makefile-mode
 (add-hook 'makefile-mode-hook
           (lambda ()
+            (auto-complete-mode t)
             (setq-local indent-tabs-mode t) ;; Make needs to use tabs, not spaces
             (setq-local tab-width 4)))
 
