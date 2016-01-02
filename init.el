@@ -344,7 +344,7 @@
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
-(setq compile-command "make clean; ctags -e -R; make -k;")
+(setq compile-command "make -C pathToWorkingDir clean; ctags -e -R; make -C pathToWorkingDir -k;")
 (add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
