@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: Compile command (for emacs)
+# --
+// To compile:
+//   $0ctags -e -R; make clean; make -k $1; ./$1;

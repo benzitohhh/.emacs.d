@@ -1,10 +1,6 @@
 ;; Set default emacs C source directory
 (setq source-directory "/Applications/emacs-24.5-src")
 
-;; Add /usr/local/bin to the path (otherwise emacs can't find stuff installed there)
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-(setq exec-path (append exec-path '("/usr/local/bin")))
-
 ;; Git support
 (add-to-list 'load-path "/usr/local/git/contrib/emacs")
 

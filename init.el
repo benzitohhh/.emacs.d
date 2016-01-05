@@ -1,6 +1,3 @@
-;; TODO:
-;; webmode
-
 ;; Emacs shell reads ~/.bashrc by default, so on OSX do:
 ;;    ln -s .bash_profile .bashrc
 
@@ -18,6 +15,10 @@
       (load-theme 'deeper-blue) ;; medium conrtast (dark-blue bg)
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
+
+;; Add /usr/local/bin to front of the path and exec-path (otherwise emacs can't find stuff installed there)
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "/usr/local/bin")
 
 ;; Set font size
 ;;;; M-x describe-font to see current font string
@@ -56,7 +57,7 @@
     git-gutter
     groovy-mode
     haskell-mode
-    idle-highlight
+    idle-highlight-mode
     jedi
     js-doc
     js2-mode
@@ -113,8 +114,11 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 
 ;; Set window to split vertically by default
-(setq split-height-threshold nil)
-(setq split-width-threshold 80)
+;; (setq split-height-threshold nil)
+;; (setq split-width-threshold 80)
+
+;; No backup files please (those filename.ext~ files)
+(setq make-backup-files nil)
 
 ;; Git gutter always
 (global-git-gutter-mode +1)
@@ -151,11 +155,18 @@
 ;;   add a '.dir-locals.el' file to a dir, containing something like:
 ;;      ((nil . ((ffip-project-root . "~/Desktop/labs/ui-v2"))))
 
+;; Use ibuffer instead of list-buffers
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;; Find file in project: use ido mode ui
 (setq ffip-prefer-ido-mode t)
 
 ;; Find file in project (set top-level dir)
 ;(setq ffip-project-root-function (lambda () "~/dev/src/labs/ui-v2"))
+
+;; Grep default
+(require 'grep)
+(grep-apply-setting 'grep-command "grep -nHR --include \\*.js -e somePattern .")
 
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
@@ -321,7 +332,7 @@
 (defun my-coding-hook ()
   "Stuff to apply when coding"
   (if (window-system)
-      (idle-highlight t)) ;; idle-highlight looks weird on the commandline
+      (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1))
 
 (defun set-indent-level-web (size)
@@ -330,6 +341,28 @@
   (setq js-indent-level size)
   (setq js2-basic-offset size)
   (setq sgml-basic-offset size))
+
+;; C and C++
+(setq c-basic-offset 4)
+(c-set-offset 'case-label '+)
+(setq compile-command "make -k -C pathToWorkingDir clean all; ctags -e -R;")
+(add-hook 'c-mode-common-hook
+          (lambda ()
+	    (my-coding-hook)
+            (setq comment-start "//" comment-end "") ;; comments with //, not /* */
+            ;; When compile is called, it asks for a compile command...
+            ;;   Simple compile command: "make -k"
+            ;;   More complex compile command: "ctags -e -R; make clean; make -k ex17; ./ex17;"
+            (define-key c-mode-map (kbd "C-x x") 'compile)
+            (define-key c-mode-map (kbd "M-RET") 'compile)
+            (define-key c-mode-map (kbd "<s-return>") 'compile)))
+
+;; Makefile-mode
+(add-hook 'makefile-mode-hook
+          (lambda ()
+            (auto-complete-mode t)
+            (setq-local indent-tabs-mode t) ;; Make needs to use tabs, not spaces
+            (setq-local tab-width 4)))
 
 ;; css
 (add-hook 'css-mode-hook 'my-coding-hook)
@@ -344,6 +377,7 @@
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
 (setq js2-bounce-indent-p t) ;; hmmmm maybe this should be t? Or nil?
+(setq js2-indent-switch-body t) ;; indent switch statements nicely
 (setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
 ;; (set-face-attribute 'js2-function-call nil :foreground "light goldenrod") ;; hmmm probably not useful
 ;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful
@@ -493,7 +527,7 @@
 ;;;;;;;;;;;;;;;;;;;
 
 ;; Example of calling a shell command
-(global-set-key (kbd "<s-return>") 'wa-annotate)
+;(global-set-key (kbd "<s-return>") 'wa-annotate)
 (defvar wa-input "input/drugFams.csv")
 (defvar wa-n 10)
 (defvar wa-output "out.html")
