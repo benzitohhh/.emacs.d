@@ -58,6 +58,7 @@
     haskell-mode
     idle-highlight
     jedi
+    js-doc
     js2-mode
     less-css-mode
     magit
@@ -351,7 +352,13 @@
 (add-to-list 'auto-mode-alist '("\\.jsx" . js2-jsx-mode)) ;; use this for jsx
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-hook 'js-mode-hook 'my-coding-hook)
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(add-hook 'js-mode-hook
+          (lambda ()
+            (tern-mode t)
+            (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
+            (define-key js2-mode-map "@" 'js-doc-insert-tag)))
+
+
 (eval-after-load 'tern
    '(progn
       (require 'tern-auto-complete)
