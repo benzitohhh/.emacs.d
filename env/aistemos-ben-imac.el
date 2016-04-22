@@ -20,6 +20,10 @@
 ;;(setq python-shell-interpreter "/usr/local/bin/ipython")
 ;;(setq python-shell-interpreter "/usr/local/Cellar/python/2.7.5/bin/python")
 (setq python-shell-interpreter "/usr/local/bin/python")
+;;(setq python-shell-interpreter "/Users/benimmanuel/.virtualenvs/pandas/bin/python")
+
+;; python jedi environment root
+;;(setq jedi:environment-root "/Users/benimmanuel/.virtualenvs/pandas")
 
 ;; default directory
 (setq default-directory "~/Desktop/")
