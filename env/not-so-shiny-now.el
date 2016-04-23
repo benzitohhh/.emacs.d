@@ -11,7 +11,8 @@
 (setq scheme-program-name "/Applications/Racketv5.3.3/bin/mzscheme")
 
 ;; python executable (comment this out to use the default)
-(setq python-shell-interpreter "/usr/local/bin/ipython")
+;(setq python-shell-interpreter "/usr/local/bin/ipython")
+(setq python-shell-interpreter "/usr/local/bin/python")
 
 ;; default directory
 (setq default-directory "~/Desktop/")
