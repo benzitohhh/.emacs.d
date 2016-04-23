@@ -16,10 +16,6 @@
       ;(require 'zenburn-theme) ;; low contrast (light grey bg)
       ))
 
-;; Add /usr/local/bin to front of the path and exec-path (otherwise emacs can't find stuff installed there)
-(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-(add-to-list 'exec-path "/usr/local/bin")
-
 ;; Set font size
 ;;;; M-x describe-font to see current font string
 ;; (set-frame-font "-*-Menlo-normal-normal-normal-*-20-*-*-*-m-0-iso10646-1" nil t)
@@ -51,6 +47,7 @@
     elisp-slime-nav ;; allows M-. to elisp source code
     etags-select
     expand-region
+    exec-path-from-shell
     find-file-in-project
     flx-ido
     full-ack
@@ -82,6 +79,14 @@
 (dolist (p my-elpa-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+;; Add /usr/local/bin to front of the path and exec-path (otherwise emacs can't find stuff installed there)
+;; (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+;; (add-to-list 'exec-path "/usr/local/bin")
+
+;; On MacOXS, get environment variables from shell
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
