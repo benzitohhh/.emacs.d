@@ -69,6 +69,7 @@
     sparql-mode
     tern
     tern-auto-complete
+    virtualenvwrapper
     visual-regexp
     visual-regexp-steroids
     web-mode
@@ -475,6 +476,7 @@
 ;;     '(add-to-list 'ac-modes cider-mode))
 
 ;; Python
+(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
 (defun annotate-pdb ()
   (interactive)
   (highlight-lines-matching-regexp "import pdb")
