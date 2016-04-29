@@ -331,6 +331,9 @@
 
 (global-set-key (kbd "C-x a") 'align-to-equals)
 
+;; Shortcut for wiping buffer
+(global-set-key (kbd "s-k") 'erase-buffer)
+(put 'erase-buffer 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
