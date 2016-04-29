@@ -48,6 +48,7 @@
     browse-kill-ring
     cider
     clojure-mode
+    dockerfile-mode
     elisp-slime-nav ;; allows M-. to elisp source code
     etags-select
     expand-region
