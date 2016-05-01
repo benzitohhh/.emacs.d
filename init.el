@@ -493,10 +493,10 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
-	    (my-coding-hook)
+            (electric-pair-mode 0)
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
             (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
-            (define-key python-mode-map (kbd "M->") 'jedi:goto-definition-pop-marker)
+            (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
             (annotate-pdb)))
 
 ;; Haskell
