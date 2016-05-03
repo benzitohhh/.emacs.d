@@ -491,6 +491,20 @@
   (insert "import pdb; pdb.set_trace()")
   (newline-and-indent)
   (annotate-pdb))
+(defun my-python-shell-send-region-or-line ()
+  "Send the current region (or whole line if none selected) to the python shell.
+For some reason python-shell-send-region does not show the result in
+the shell, hence this workaround."
+  (interactive)
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((string (if use-region
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line))))
+            (process (python-shell-get-or-create-process)))
+        (message "Sent: %s..." string)
+        (python-shell-send-string string process)))))
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
@@ -499,6 +513,7 @@
             (jedi:setup)
             (electric-pair-mode 0)
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
+            (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
             (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
             (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
             (annotate-pdb)))
