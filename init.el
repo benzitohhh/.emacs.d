@@ -511,7 +511,7 @@ the shell, hence this workaround."
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
-            (electric-pair-mode 0)
+            (electric-pair-mode 1) ;; set to 0 to disable electric pair
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
             (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
             (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
