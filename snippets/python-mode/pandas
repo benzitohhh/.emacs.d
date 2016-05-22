@@ -12,3 +12,6 @@ import matplotlib.pylab as pylab
 import matplotlib.pyplot as plt
 matplotlib.style.use('ggplot')
 pylab.rcParams['figure.figsize'] = (10, 6)
+pd.set_option('display.max_rows', 20)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
