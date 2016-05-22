@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+# name: pandas imports
+# expand-env: ((yas-indent-line 'fixed))
+# --
+### For ipython notebook, uncomment the first two lines
+#%matplotlib inline
+#%pylab inline
+import pandas as pd
+import numpy as np
+import matplotlib
+import matplotlib.pylab as pylab
+import matplotlib.pyplot as plt
+matplotlib.style.use('ggplot')
+pylab.rcParams['figure.figsize'] = (10, 6)

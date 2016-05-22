@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: pandas output csv as string
+# expand-env: ((yas-indent-line 'fixed))
+# --
+csv_string = df.to_csv()

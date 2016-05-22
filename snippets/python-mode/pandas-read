@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: pandas read in csv
+# expand-env: ((yas-indent-line 'fixed))
+# --
+df = pd.read_csv("${1:path/to/file}", skipinitialspace=True, index_col=False)
