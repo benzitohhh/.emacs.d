@@ -356,6 +356,7 @@
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
 (setq compile-command "make -k -C pathToWorkingDir clean all; ctags -e -R;")
+;(setq compile-command "make clean; make ex1; echo; ./ex1;")
 (add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
