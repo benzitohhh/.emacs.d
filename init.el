@@ -366,7 +366,8 @@
             ;;   More complex compile command: "ctags -e -R; make clean; make -k ex17; ./ex17;"
             (define-key c-mode-map (kbd "C-x x") 'compile)
             (define-key c-mode-map (kbd "M-RET") 'compile)
-            (define-key c-mode-map (kbd "<s-return>") 'compile)))
+            (define-key c-mode-map (kbd "<s-return>") 'compile)
+            (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)))
 
 ;; Makefile-mode
 (add-hook 'makefile-mode-hook
