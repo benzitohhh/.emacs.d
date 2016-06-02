@@ -350,7 +350,8 @@
   (interactive "nEnter indent level (for js/html/css): ")
   (setq js-indent-level size)
   (setq js2-basic-offset size)
-  (setq sgml-basic-offset size))
+  (setq sgml-basic-offset size)
+  (setq css-indent-offset size))
 
 ;; C and C++
 (setq c-basic-offset 4)
@@ -377,6 +378,7 @@
             (setq-local tab-width 4)))
 
 ;; css
+(setq css-indent-offset 2)
 (add-hook 'css-mode-hook 'my-coding-hook)
 (add-hook 'css-mode-hook (lambda () (rainbow-mode t)))
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
