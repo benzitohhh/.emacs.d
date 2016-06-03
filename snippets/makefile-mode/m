@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # name: Make simple template
+# expand-env: ((yas-indent-line 'fixed))
 # --
 # Make sure to use tabs (NOT spaces)
 CFLAGS=-Wall -g
