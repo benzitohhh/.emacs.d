@@ -372,6 +372,7 @@
             (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)))
 
 ;; Makefile-mode
+(add-to-list 'auto-mode-alist '("\\Makefile" . makefile-mode))
 (add-hook 'makefile-mode-hook
           (lambda ()
             (auto-complete-mode t)
@@ -521,6 +522,9 @@ the shell, hence this workaround."
             (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
             (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
             (define-key python-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
+            (define-key python-mode-map (kbd "C-x x") 'compile)
+            (define-key python-mode-map (kbd "M-RET") 'compile)
+            (define-key python-mode-map (kbd "<s-return>") 'compile)
             (annotate-pdb)))
 
 ;; Haskell
