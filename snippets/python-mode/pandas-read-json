@@ -1,0 +1,19 @@
+# -*- coding: utf-8 -*-
+# name: pandas read in json
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+df = pd.read_json("${1:path/to/file}");
+
+# extract json properties into columns
+for row in range(len(df)):
+    state = df.loc[row, 'state']
+    df.loc[row, 'size_active_boost'] = state.get('size_active_boost')
+    df.loc[row, 'org_prefix_boost']  = state.get('org_prefix_boost')
+    df.loc[row, 'phrase_boost']      = state.get('phrase_boost')
+    df.loc[row, 'index']             = state.get('index')
+
+# drop unnecessary rows
+df.drop('state', 1, inplace=True)
+df.drop('url', 1, inplace=True)
+df.drop('score_pc', 1, inplace=True)

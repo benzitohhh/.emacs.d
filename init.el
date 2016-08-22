@@ -127,6 +127,11 @@
 ;; No backup files please (those filename.ext~ files)
 (setq make-backup-files nil)
 
+;; Sort lines case-insensitive by default
+(custom-set-variables
+ '(sort-fold-case t t)
+)
+
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
