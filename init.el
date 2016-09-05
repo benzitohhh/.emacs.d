@@ -49,10 +49,12 @@
     etags-select
     expand-region
     exec-path-from-shell
+    feature-mode
     find-file-in-project
     flx-ido
     full-ack
     git-gutter
+    glsl-mode
     groovy-mode
     haskell-mode
     idle-highlight-mode
@@ -561,6 +563,9 @@ the shell, hence this workaround."
             (sparql-set-base-url "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=csv&timeout=30000&debug=on")
             (define-key sparql-mode-map (kbd "C-c C-c") 'sparql-query-region)
             (define-key sparql-mode-map (kbd "<s-return>") 'sparql-query-region)))
+
+;; Cucumber (gherkin)
+(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Tempoarary
