@@ -19,10 +19,21 @@
 ;; python executable (comment this out to use tge default)
 ;;(setq python-shell-interpreter "/usr/local/bin/python")
 ;;(setq python-shell-interpreter "/usr/local/Cellar/python/2.7.5/bin/python")
-(setq python-shell-interpreter "/usr/local/bin/ipython")
+
+;; python 3
+;(setq python-shell-interpreter "/usr/local/bin/ipython")
+
+;; python2
+(setq python-shell-interpreter "/usr/local/bin/ipython2"
+      python-shell-interpreter-args "--simple-prompt -i") ;; for Python 2, need to set simple prompt
+
+;; python path
+(setenv "PYTHONPATH" "/Users/benimmanuel/dev/src/cipher/deploy")
+
 
 ;; python jedi environment root
 ;;(setq jedi:environment-root "/Users/benimmanuel/.virtualenvs/pandas")
+
 
 ;; default directory
 (setq default-directory "~/Desktop/")

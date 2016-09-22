@@ -378,6 +378,14 @@
             (define-key c-mode-map (kbd "<s-return>") 'compile)
             (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)))
 
+
+;; GLSL
+(add-hook 'glsl-mode-hook
+          (lambda ()
+	    (my-coding-hook)
+            (auto-complete-mode))
+          )
+
 ;; Makefile-mode
 (add-to-list 'auto-mode-alist '("\\Makefile" . makefile-mode))
 (add-hook 'makefile-mode-hook
@@ -524,6 +532,7 @@ the shell, hence this workaround."
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
+            (idle-highlight)
             (electric-pair-mode 1) ;; set to 0 to disable electric pair
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
             (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
