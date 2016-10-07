@@ -8,41 +8,22 @@ Read in csv file lines, transform and output them again.
 """
 
 from __future__ import print_function
-import sys
 import csv
-import re
+import sys
 
-def main(argv):
-    ports = set()
-    with open(argv[1]) as f:
-        reader = csv.reader(f, delimiter='\t')
-        for line in reader:
-            port = line[2]
-            if len(port) == 0:
-                port = 'unknown'
-            if '|' not in port:
-                ports.add(port)
-    by_port = { k: [] for k in ports }
-    with open(argv[1]) as f:
-        reader = csv.reader(f, delimiter='\t')
-        for line in reader:
-            port = line[2]
-            if '|' in port:
-                pl = re.split(r' *\| *', port)
-                match_count = 0
-                for p in pl:
-                    if p in ports:
-                        by_port[p].append(line[0:2])
-                        match_count += 1
-                if match_count == 0:
-                    if pl[0] not in by_port:
-                        by_port[pl[0]] = []
-                    by_port[pl[0]].append(line[0:2])
+DELIMITER = ','  # or also "\t"
 
-    for p in sorted(by_port.keys(), key=lambda x: -len(by_port[x])):
-        for line in by_port[p]:
-            print('%s\t%s\t%s' %(line[0], line[1], p))
+with open('some.csv') as csvfile:
+    reader = csv.DictReader(csvfile, delimiter=DELIMITER) # gets field_names from first line of CSV
+    fieldnames = reader.fieldnames # the header row
 
+    writer = csv.DictWriter(sys.stdout, fieldnames, dialect='excel')
 
-if __name__ == '__main__':
-    main(sys.argv)
+    #rows = list(reader) # read all lines into memory (alterntively, can just iterate over reader)
+
+    writer.writeheader() # output header
+
+    for row in reader:
+        ## TODO: transform rows here
+        ## i.e. new_row = dict(row, **{"some_field": some_val})
+        writer.writerow(row) # output line
