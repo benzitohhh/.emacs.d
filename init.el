@@ -31,7 +31,7 @@
 
 ;; Marmalade, Melpa package archive
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))  ;; hmmm sometimes marmalade is offline...
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
@@ -45,6 +45,7 @@
     cider
     clojure-mode
     dockerfile-mode
+    dumb-jump
     elisp-slime-nav ;; allows M-. to elisp source code
     etags-select
     expand-region
@@ -206,6 +207,9 @@
 ;; Yas snippets (uses the default snippets, and my custom snippets from ~/.emacs.d/snippets)
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;; Dumb jump mode always
+(dumb-jump-mode)
 
 ;; Auto-complete config
 (ac-config-default)
