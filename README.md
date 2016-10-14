@@ -15,3 +15,11 @@ You can download this from http://emacsformacosx.com/builds .
 The just set add an entry in your env file above
 
 i.e. `(setq source-directory "/Applications/emacs-24.5-src")`
+
+## Dumb jump
+
+For best results, install silver searcher:
+
+https://github.com/jacktasia/dumb-jump
+
+https://github.com/ggreer/the_silver_searcher#installing
