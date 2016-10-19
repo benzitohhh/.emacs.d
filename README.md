@@ -8,6 +8,10 @@ And create an `init-env.el` file that loads the required env file.
 
 i.e. `cp init-env.el.example init-env.el` and then edit it.
 
+## Python flycheck
+
+This requires pylint (install with `pip install pylint`)
+
 ## Emacs C source
 
 You can download this from http://emacsformacosx.com/builds .
