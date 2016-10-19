@@ -40,6 +40,7 @@
   '(
     ;;flycheck
     ;;ac-cider
+    ag
     auto-complete
     browse-kill-ring
     cider
@@ -53,6 +54,7 @@
     feature-mode
     find-file-in-project
     flx-ido
+    flycheck
     full-ack
     git-gutter
     glsl-mode
@@ -530,12 +532,15 @@ the shell, hence this workaround."
             (process (python-shell-get-or-create-process)))
         (message "Sent: %s..." string)
         (python-shell-send-string string process)))))
+(defun flycheck-python-setup ()
+  (flycheck-mode))
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
+            (flycheck-python-setup)
             (idle-highlight)
             (electric-pair-mode 1) ;; set to 0 to disable electric pair
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
