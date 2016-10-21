@@ -38,7 +38,6 @@
 ;; Make sure the below packages are available
 (defvar my-elpa-packages
   '(
-    ;;flycheck
     ;;ac-cider
     ag
     auto-complete
@@ -132,10 +131,17 @@
 ;; No backup files please (those filename.ext~ files)
 (setq make-backup-files nil)
 
-;; Sort lines case-insensitive by default
 (custom-set-variables
- '(sort-fold-case t t)
-)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(haskell-mode-hook (quote (turn-on-haskell-simple-indent)))
+ '(package-selected-packages
+   (quote
+    (zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+ ;; Sort lines case-insensitive by default
+ '(sort-fold-case t t))
 
 ;; Git gutter always
 (global-git-gutter-mode +1)
@@ -551,10 +557,6 @@ the shell, hence this workaround."
             (define-key python-mode-map (kbd "M-RET") 'compile)
             (define-key python-mode-map (kbd "<s-return>") 'compile)
             (annotate-pdb)))
-
-;; Haskell
-(custom-set-variables
- '(haskell-mode-hook '(turn-on-haskell-simple-indent)))
 
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode"
