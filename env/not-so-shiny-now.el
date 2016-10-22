@@ -1,14 +1,8 @@
 ;; Set default emacs C source directory
-(setq source-directory "/Applications/emacs-24.5-src")
-
-;; Git support
-(add-to-list 'load-path "/usr/local/git/contrib/emacs")
+(setq source-directory "/Applications/emacs-25.1-src")
 
 ;; full-ack
 (setq ack-executable "/Users/immanuel_ben/bin/ack")
-
-;; Racket (scheme)
-(setq scheme-program-name "/Applications/Racketv5.3.3/bin/mzscheme")
 
 ;; python executable (comment this out to use the default)
 (setq python-shell-interpreter "/usr/local/bin/ipython")

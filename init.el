@@ -140,7 +140,6 @@
  '(package-selected-packages
    (quote
     (zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
- ;; Sort lines case-insensitive by default
  '(sort-fold-case t t))
 
 ;; Git gutter always
