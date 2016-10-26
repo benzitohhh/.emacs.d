@@ -79,6 +79,7 @@
     visual-regexp-steroids
     web-mode
     whitespace-cleanup-mode
+    yaml-mode
     yasnippet
     zenburn-theme
     ))
@@ -542,11 +543,12 @@ the shell, hence this workaround."
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
             (flycheck-python-setup)
-            (idle-highlight)
+            (idle-highlight-mode)
             (electric-pair-mode 1) ;; set to 0 to disable electric pair
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
             (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
@@ -602,3 +604,9 @@ the shell, hence this workaround."
    (concat "cd /Users/benimmanuel/Desktop/wikipedia-annotate; "
            "python annotate.py " wa-input " -n " (number-to-string wa-n)
            " > " wa-output)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
