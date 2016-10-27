@@ -588,6 +588,15 @@ the shell, hence this workaround."
 ;; Cucumber (gherkin)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
+;; Yaml
+(add-to-list 'auto-mode-alist '("\\.yml" . yaml-mode))
+
+;; Conf
+(add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
+(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
+
+
+
 ;;;;;;;;;;;;;;;;;;;
 ;; Tempoarary
 ;;;;;;;;;;;;;;;;;;;
