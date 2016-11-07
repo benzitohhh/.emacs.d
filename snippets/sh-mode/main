@@ -1,0 +1,63 @@
+# -*- coding: utf-8 -*-
+# name: main stuff
+# expand-env: ((yas-indent-line 'fixed))
+# --
+#!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
+
+function show_usage {
+    echo "
+
+USAGE:
+
+  $0  \
+    -a <address_json_file> \
+    -v <slice_data_version> \
+    -d <docker_registry>
+
+
+EXAMPLE:
+
+  $0  \
+    -a /Users/benimmanuel/Desktop/addresses.json \
+    -v 81 \
+    -d test
+"
+}
+
+# validate args
+while getopts a:v:d: option
+do
+    case "${option}"
+    in
+        a) ADDRESS_JSON_FILE=${OPTARG};;
+        v) SLICE_DATA_VERSION=${OPTARG};;
+        d) DOCKER_REGISTRY=${OPTARG};;
+    esac
+done
+if [ -z "$ADDRESS_JSON_FILE" ]; then
+    echo "ERROR: ADDRESS_JSON_FILE option (-a) not set."
+    show_usage
+    exit
+fi
+if [ ! -f $ADDRESS_JSON_FILE ]; then
+    echo "ERROR: ADDRESS_JSONFILE not found:" $ADDRESS_JSON_FILE
+    show_usage
+    exit
+fi
+if [ -z "$SLICE_DATA_VERSION" ]; then
+    echo "ERROR: SLICE_DATA_VERSION option (-v) not set."
+    show_usage
+    exit
+fi
+if [ -z "$DOCKER_REGISTRY" ]; then
+    echo "ERROR: DOCKER_REGISTRY option (-d) not set."
+    show_usage
+    exit
+fi
+
+echo 'Using ADDRESS_JSON_FILE:' $ADDRESS_JSON_FILE
+echo 'Using SLICE_DATA_VERSION' $SLICE_DATA_VERSION
+echo 'Using DOCKER_REGISTRY:' $DOCKER_REGISTRY
