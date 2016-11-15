@@ -122,6 +122,8 @@
 ;; Don't add new lines at end of file
 (setq next-line-add-newlines nil)
 (setq require-final-newline nil)
+(setq mode-require-final-newline nil)
+
 
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -435,6 +437,7 @@
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook
           (lambda ()
+            (auto-complete-mode t)
             (tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
             (define-key js2-mode-map "@" 'js-doc-insert-tag)))
