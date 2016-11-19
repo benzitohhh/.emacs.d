@@ -70,6 +70,7 @@
     paredit
     php-mode
     rainbow-mode
+    rjsx-mode
     scala-mode
     sparql-mode
     tern
@@ -79,6 +80,7 @@
     visual-regexp-steroids
     web-mode
     whitespace-cleanup-mode
+    yaml-mode
     yasnippet
     zenburn-theme
     ))
@@ -120,6 +122,8 @@
 ;; Don't add new lines at end of file
 (setq next-line-add-newlines nil)
 (setq require-final-newline nil)
+(setq mode-require-final-newline nil)
+
 
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -140,6 +144,9 @@
  '(package-selected-packages
    (quote
     (zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+ '(safe-local-variable-values
+   (quote
+    ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
  '(sort-fold-case t t))
 
 ;; Git gutter always
@@ -424,16 +431,16 @@
 ;; (set-face-attribute 'js2-function-call nil :foreground "light goldenrod") ;; hmmm probably not useful
 ;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
-;; (add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
-(add-to-list 'auto-mode-alist '("\\.jsx" . js2-jsx-mode)) ;; use this for jsx
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
+(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
+;; (add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook
           (lambda ()
+            (auto-complete-mode t)
             (tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
             (define-key js2-mode-map "@" 'js-doc-insert-tag)))
-
 
 (eval-after-load 'tern
    '(progn
@@ -546,11 +553,12 @@ the shell, hence this workaround."
 (autoload 'jedi:setup "jedi" nil t)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)
             (flycheck-python-setup)
-            (idle-highlight)
+            (idle-highlight-mode)
             (electric-pair-mode 1) ;; set to 0 to disable electric pair
             (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
             (define-key python-mode-map (kbd "C-x C-e") 'my-python-shell-send-region-or-line)
@@ -590,6 +598,15 @@ the shell, hence this workaround."
 ;; Cucumber (gherkin)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
+;; Yaml
+(add-to-list 'auto-mode-alist '("\\.yml" . yaml-mode))
+
+;; Conf
+(add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
+(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
+
+
+
 ;;;;;;;;;;;;;;;;;;;
 ;; Tempoarary
 ;;;;;;;;;;;;;;;;;;;
@@ -606,3 +623,9 @@ the shell, hence this workaround."
    (concat "cd /Users/benimmanuel/Desktop/wikipedia-annotate; "
            "python annotate.py " wa-input " -n " (number-to-string wa-n)
            " > " wa-output)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
