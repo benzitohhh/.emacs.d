@@ -467,11 +467,15 @@
 (add-hook 'php-mode-hook 'my-coding-hook)
 
 ;; Web mode
-;; (require 'web-mode)
 ;; (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+	    (my-coding-hook)
+            (auto-complete-mode))
+          )
 
 ;; Groovy
 (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
