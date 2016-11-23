@@ -177,8 +177,14 @@
          "*target/universal*"
          "*/.target/*"
          "*/.build/*"
-         "*/build/*")
+         "*/build/*"
+         "*/site-packages/*")
        " "))
+
+;; Find file in project: remove "bin" from ignore list
+(require 'find-file-in-project)
+(setq ffip-prune-patterns (cl-remove-if (lambda (x) (equal x "*/bin/*")) ffip-prune-patterns))
+
 ;; For per-project settings, use 'per-directory' local variables: http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html#Directory-Variables
 ;; Specifically...
 ;;   add a '.dir-locals.el' file to a dir, containing something like:
