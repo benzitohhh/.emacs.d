@@ -414,6 +414,7 @@
 	    (my-coding-hook)
             (auto-complete-mode))
           )
+(add-to-list 'auto-mode-alist '("\\.glsl$" . glsl-mode))
 
 ;; Makefile-mode
 (add-to-list 'auto-mode-alist '("\\Makefile" . makefile-mode))
