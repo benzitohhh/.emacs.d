@@ -492,6 +492,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+;(setq web-mode-code-indent-offset 4)
 (add-hook 'web-mode-hook
           (lambda ()
 	    (my-coding-hook)
