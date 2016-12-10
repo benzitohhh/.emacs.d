@@ -384,10 +384,11 @@
   (setq sgml-basic-offset size)
   (setq css-indent-offset size))
 
-(defun tab-space-toggle ()
-  "Toggle between using tabs/spaces"
+(defun tabs-please ()
+  "Use tabs rather than spaces"
   (interactive)
-  (setq-default indent-tabs-mode (not indent-tabs-mode)))
+  (setq-default indent-tabs-mode t)
+  (web-mode-use-tabs))
 
 ;; C and C++
 (setq c-basic-offset 4)
