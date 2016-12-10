@@ -384,6 +384,11 @@
   (setq sgml-basic-offset size)
   (setq css-indent-offset size))
 
+(defun tab-space-toggle ()
+  "Toggle between using tabs/spaces"
+  (interactive)
+  (setq-default indent-tabs-mode (not indent-tabs-mode)))
+
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
