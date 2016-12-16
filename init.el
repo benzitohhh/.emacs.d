@@ -492,11 +492,14 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-;(setq web-mode-code-indent-offset 4)
 (add-hook 'web-mode-hook
           (lambda ()
+            ;(setq web-mode-code-indent-offset 4)
+            (setq-default web-mode-comment-formats (remove '("javascript" . "/*") web-mode-comment-formats))
+            (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
 	    (my-coding-hook)
-            (auto-complete-mode))
+            (auto-complete-mode)
+            )
           )
 
 ;; Groovy
