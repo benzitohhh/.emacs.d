@@ -445,9 +445,9 @@
 ;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
-(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
-(add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
-;; (add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
+;;(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
+;;(add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
+;;;; (add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook
           (lambda ()
