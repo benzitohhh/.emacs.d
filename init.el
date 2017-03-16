@@ -374,7 +374,10 @@
   "Stuff to apply when coding"
   (if (window-system)
       (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
-  (electric-pair-mode 1))
+  (electric-pair-mode 1)
+  (hl-line-mode 1) ;; highlight current line
+  (set-face-background 'hl-line "#222536") ;; but make sure highlight is subtle
+  )
 
 (defun set-indent-level-web (size)
   "Set the indent level for js/html/css"
