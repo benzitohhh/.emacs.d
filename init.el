@@ -376,7 +376,7 @@
       (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1)
   (hl-line-mode 1) ;; highlight current line
-  (set-face-background 'hl-line "#222536") ;; but make sure highlight is subtle
+  (set-face-background 'hl-line "#1d1d2d") ;; but make sure highlight current line is subtle
   )
 
 (defun set-indent-level-web (size)
