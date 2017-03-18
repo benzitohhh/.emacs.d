@@ -624,7 +624,8 @@ the shell, hence this workaround."
 
 ;; Conf
 (add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
-(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
+;;(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("cipher\-conf" . conf-mode))
 
 
 
