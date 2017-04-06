@@ -438,19 +438,30 @@
 (setq sgml-basic-offset 2)
 (add-hook 'sgml-mode-hook 'my-coding-hook)
 
-;; javascript (i.e. js2-mode also sets js-mode, so only need to bind stuff to js-mode)
+;; javascript
+
+;; Fix jsx indent (See http://blog.binchen.org/posts/indent-jsx-in-emacs.html)
+(defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
+  "Workaround sgml-mode and follow airbnb component style."
+  (let* ((cur-line (buffer-substring-no-properties
+                    (line-beginning-position)
+                    (line-end-position))))
+    (if (string-match "^\\( +\\)\/?> *$" cur-line)
+      (let* ((empty-spaces (match-string 1 cur-line)))
+        (replace-regexp empty-spaces
+                        (make-string (- (length empty-spaces) sgml-basic-offset) 32)
+                        nil
+                        (line-beginning-position) (line-end-position))))))
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
-(setq js2-bounce-indent-p t) ;; hmmmm maybe this should be t? Or nil?
+(setq js2-bounce-indent-p t)
 (setq js2-indent-switch-body t) ;; indent switch statements nicely
 (setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
-;; (set-face-attribute 'js2-function-call nil :foreground "light goldenrod") ;; hmmm probably not useful
-;; (set-face-attribute 'js2-object-property nil :foreground "pink") ;; hmmm probably not useful
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
 (add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
 (add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
-;; (add-to-list 'auto-mode-alist '("\\.js" . js2-jsx-mode)) ;; use this for jsx
+;; (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode)) ;; use this for jsx
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook
           (lambda ()
