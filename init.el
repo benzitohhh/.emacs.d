@@ -44,6 +44,7 @@
     browse-kill-ring
     cider
     clojure-mode
+    conda
     dockerfile-mode
     dumb-jump
     elisp-slime-nav ;; allows M-. to elisp source code
@@ -144,7 +145,7 @@
  '(haskell-mode-hook (quote (turn-on-haskell-simple-indent)))
  '(package-selected-packages
    (quote
-    (protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+    (conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
  '(safe-local-variable-values
    (quote
     ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
@@ -556,7 +557,10 @@
 ;;     '(add-to-list 'ac-modes cider-mode))
 
 ;; Python
-(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
+;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
+(require 'conda)
+;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
+;; i.e. then to activate an env, M-x conda-env-activate <ret> py2
 (defun annotate-pdb ()
   (interactive)
   (highlight-lines-matching-regexp "import pdb")

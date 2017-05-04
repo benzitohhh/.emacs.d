@@ -33,7 +33,7 @@
 
 ;; python jedi environment root
 ;;(setq jedi:environment-root "/Users/benimmanuel/.virtualenvs/pandas")
-
+(setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
 
 ;; default directory
 (setq default-directory "~/Desktop/")
