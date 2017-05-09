@@ -232,6 +232,7 @@
 
 ;; Dumb jump mode always
 (dumb-jump-mode)
+(define-key global-map (kbd "C-M-f") 'dumb-jump-go-prefer-external) ;; useful for jumping to references
 
 ;; Auto-complete config
 (ac-config-default)
