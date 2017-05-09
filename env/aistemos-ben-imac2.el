@@ -24,8 +24,13 @@
 ;(setq python-shell-interpreter "/usr/local/bin/ipython")
 
 ;; python2
-(setq python-shell-interpreter "/usr/local/bin/ipython2"
-      python-shell-interpreter-args "--simple-prompt -i") ;; for Python 2, need to set simple prompt
+;; (setq python-shell-interpreter "/usr/local/bin/ipython2"
+;;       python-shell-interpreter-args "--simple-prompt -i") ;; for Python 2, need to set simple prompt
+
+;; use current ipython
+;; (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "--simple-prompt -i" ;; disable colours (maybe not necessary anymore???)
+;;       )
 
 ;; python path
 (setenv "PYTHONPATH" "/Users/benimmanuel/dev/src/cipher/deploy")

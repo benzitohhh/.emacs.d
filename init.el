@@ -126,6 +126,8 @@
 (setq require-final-newline nil)
 (setq mode-require-final-newline nil)
 
+;; Show column number please
+(setq column-number-mode t)
 
 ;; Set ediff to split vertically (default is horizontal)
 (setq ediff-split-window-function 'split-window-horizontally)
