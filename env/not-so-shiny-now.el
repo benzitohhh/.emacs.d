@@ -8,6 +8,11 @@
 (setq python-shell-interpreter "/usr/local/bin/ipython")
 ;(setq python-shell-interpreter "/usr/local/bin/python")
 
+(setq conda-anaconda-home "/Users/immanuel_ben/miniconda3")
+
+(setq jedi:server-args
+      '("--sys-path" "/Users/immanuel_ben/miniconda3/lib/python3.6/site-packages"))
+
 ;; default directory
 (setq default-directory "~/Desktop/")
 
