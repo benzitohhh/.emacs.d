@@ -147,7 +147,7 @@
  '(haskell-mode-hook (quote (turn-on-haskell-simple-indent)))
  '(package-selected-packages
    (quote
-    (conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+    (csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
  '(safe-local-variable-values
    (quote
     ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
@@ -523,6 +523,7 @@
 
 ;; Groovy
 (add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\\.jar" . archive-mode))
 (add-hook 'groovy-mode-hook 'my-coding-hook)
 
 ;; Scala
@@ -564,6 +565,7 @@
 (require 'conda)
 ;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
 ;; i.e. then to activate an env, M-x conda-env-activate <ret> py2
+(conda-env-activate "py3") ;; temp: use python2!!!
 (defun annotate-pdb ()
   (interactive)
   (highlight-lines-matching-regexp "import pdb")
@@ -588,6 +590,7 @@ the shell, hence this workaround."
             (process (python-shell-get-or-create-process)))
         (message "Sent: %s..." string)
         (python-shell-send-string string process)))))
+;(add-to-list 'flycheck-disabled-checkers 'python-flake8)
 (defun flycheck-python-setup ()
   (flycheck-mode))
 (autoload 'jedi:setup "jedi" nil t)
