@@ -462,10 +462,11 @@
 (setq js2-bounce-indent-p t)
 (setq js2-indent-switch-body t) ;; indent switch statements nicely
 (setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
-(add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
+;(add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
+(add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode)) ;; use this for js
 (add-to-list 'auto-mode-alist '("\\.json" . js-mode))
-(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
-(add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
+;(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
+;(add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
 ;; (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode)) ;; use this for jsx
 (add-hook 'js-mode-hook 'my-coding-hook)
 (add-hook 'js-mode-hook

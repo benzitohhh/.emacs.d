@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+# name: React stateless component
+# --
+import React from 'react'
+
+const $1 = (props) => {
+  return (
+    <div></div>$0
+  )
+}
+
+export default $1

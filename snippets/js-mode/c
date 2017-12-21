@@ -3,7 +3,7 @@
 # --
 import React from 'react'
 
-export default React.createClass({
+const $1 = React.createClass({
   getInitialState: function() { return {}; },
   getDefaultProps: function() { return {}; },
   componentWillMount: function() {},
@@ -19,4 +19,6 @@ export default React.createClass({
       <div></div>$0
     );
   }
-});
+})
+
+export default $1
