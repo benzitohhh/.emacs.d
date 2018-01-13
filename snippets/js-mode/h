@@ -1,0 +1,5 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: arrow function (inline)
+# contributor: Ben Immanuel
+# --
+(${1:d}) => {$0}
