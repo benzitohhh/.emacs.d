@@ -1,24 +1,30 @@
 # -*- coding: utf-8 -*-
-# name: React component
+# name: React ES6 Class
 # --
 import React from 'react'
 
-const $1 = React.createClass({
-  getInitialState: function() { return {}; },
-  getDefaultProps: function() { return {}; },
-  componentWillMount: function() {},
-  componentDidMount: function() {},
-  componentWillReceiveProps: function(nextProps) {},
-  shouldComponentUpdate: function(nextProps, nextState) {},
-  componentWillUpdate: function(nextProps, nextState) {},
-  componentDidUpdate: function(prevProps, prevState) {},
-  componentWillUnmount: function() {},
+class $1 extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+    // this.method = this.method.bind(this); // bind "this"
+  }
+  componentWillMount() {}
+  componentDidMount() {}
+  componentWillReceiveProps(nextProps) {}
+  shouldComponentUpdate(nextProps, nextState) {}
+  componentWillUpdate(nextProps, nextState) {}
+  componentDidUpdate(prevProps, prevState) {}
+  componentWillUnmount() {}
 
-  render: function() {
+  render() {
     return (
       <div></div>$0
-    );
+    )
   }
-})
+}
+
+$1.propTypes = {}
+$1.defaultProps = {}
 
 export default $1
