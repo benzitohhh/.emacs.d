@@ -16,6 +16,7 @@ class $1 extends React.Component {
   componentWillUpdate(nextProps, nextState) {}
   componentDidUpdate(prevProps, prevState) {}
   componentWillUnmount() {}
+  componentDidCatch(error, errorInfo) {}
 
   render() {
     return (
