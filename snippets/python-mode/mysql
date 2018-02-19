@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+# name: mysql
+# --
+#!/usr/bin/env python3
+
+## pip install mysql-connector-python
+import mysql.connector
+
+# Import config file, or just inline here:
+# import config
+# HOST = '127.0.0.1'
+# PORT = '3307'
+# USER = 'root'
+# PASS = 'root'
+# DB   = 'wordpress'
+
+LIMIT_CLAUSE = f'LIMIT {LIMIT}' if LIMIT else ''
+
+SQL_ORGS = f"""
+SELECT name, address from Organisation
+{LIMIT_CLAUSE}
+"""
+
+cursor = conn.cursor()
+
+cursor.execute(SQL_USERS)
+users = cursor.fetchall()
+for user in users:
+    print(user)
+
