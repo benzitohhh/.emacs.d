@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# name: Cipher imports
+# name: various Cipher things
 # --
 import { Link } from 'react-router-dom'
 import { Row, Col } from 'reactstrap'
