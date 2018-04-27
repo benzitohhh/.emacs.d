@@ -457,6 +457,26 @@
                         (make-string (- (length empty-spaces) sgml-basic-offset) 32)
                         nil
                         (line-beginning-position) (line-end-position))))))
+
+(defun create-css-module ()
+  "Create a .module.scss file based on current filename, add imports for it."
+  (interactive)
+  (let ((css-file-full (replace-regexp-in-string "\\.js" ".module.css" (buffer-file-name))))
+    ;; add import to current buffer
+    (insert "import cn from 'classnames'")
+    (newline)
+    (insert (concat "import s from './" (file-name-nondirectory css-file-full) "'"))
+    (newline)
+    (insert "// <div className={cn(s.button, {[s.button__active]: is_clicked})} />")
+    (newline)
+    (save-buffer)
+    ;; create file if it does not exist
+    (message css-file-full)
+    (shell-command (concat "touch " css-file-full))
+    ;; open the file
+    (find-file css-file-full)
+    ))
+
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
 (setq js2-bounce-indent-p t)
@@ -474,7 +494,9 @@
             (auto-complete-mode t)
             (tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
-            (define-key js2-mode-map "@" 'js-doc-insert-tag)))
+            (define-key js2-mode-map "@" 'js-doc-insert-tag)
+            (define-key js2-mode-map "\C-cm" 'create-css-module)
+            ))
 
 (eval-after-load 'tern
    '(progn
