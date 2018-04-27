@@ -483,7 +483,7 @@
     (message file)
     (shell-command (concat "touch " file))
     ;; open the file
-    (find-file css-file-full)))
+    (find-file file)))
 
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
