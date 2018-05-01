@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 # name: import (ES6)
 # --
-import ${1:name} from './$1.js';
+import $1 from './$1.js';$0

@@ -147,7 +147,7 @@
  '(haskell-mode-hook (quote (turn-on-haskell-simple-indent)))
  '(package-selected-packages
    (quote
-    (csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+    (flow-minor-mode csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
  '(safe-local-variable-values
    (quote
     ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
@@ -460,30 +460,34 @@
 
 (defun get-css-module-file ()
   "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
+  (replace-regexp-in-string "\\.js" ".module.css" (buffer-file-name)))
+
+(defun get-scss-module-file ()
+  "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
   (replace-regexp-in-string "\\.js" ".module.scss" (buffer-file-name)))
 
-(defun open-css-module ()
+(defun open-scss-module ()
   "Open sass css-module that corresponds to current file."
   (interactive)
   (find-file (get-css-module-file)))
 
-(defun create-css-module ()
+(defun create-scss-module ()
   "Create sass css-module based on current filename, add imports for it (assumes current file is a .js file)."
   (interactive)
-  (let ((file (get-css-module-file)))
+  (let ((scss-file (get-scss-module-file))
+        (css-file (get-css-module-file)))
     ;; add import to current buffer
     (insert "import cn from 'classnames'")
     (newline)
-    (insert (concat "import s from './" (file-name-nondirectory file) "'"))
+    (insert (concat "import s from './" (file-name-nondirectory css-file) "'"))
     (newline)
     (insert "// <div className={cn(s.button, {[s.button__active]: is_clicked})} />")
     (newline)
     (save-buffer)
     ;; create file if it does not exist
-    (message file)
-    (shell-command (concat "touch " file))
+    (shell-command (concat "touch " scss-file))
     ;; open the file
-    (find-file file)))
+    (find-file scss-file)))
 
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
@@ -503,8 +507,8 @@
             (tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
             (define-key js2-mode-map "@" 'js-doc-insert-tag)
-            (define-key js2-mode-map "\C-cm" 'create-css-module)
-            (define-key js2-mode-map "\C-cc" 'open-css-module)
+            (define-key js2-mode-map "\C-cm" 'create-scss-module)
+            (define-key js2-mode-map "\C-cc" 'open-scss-module)
             ))
 
 (eval-after-load 'tern
