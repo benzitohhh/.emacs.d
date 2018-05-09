@@ -469,7 +469,7 @@
 (defun open-scss-module ()
   "Open sass css-module that corresponds to current file."
   (interactive)
-  (find-file (get-css-module-file)))
+  (find-file (get-scss-module-file)))
 
 (defun create-scss-module ()
   "Create sass css-module based on current filename, add imports for it (assumes current file is a .js file)."
@@ -685,7 +685,8 @@ the shell, hence this workaround."
 (add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
 ;;(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
 (add-to-list 'auto-mode-alist '("cipher\-conf" . conf-mode))
-
+(add-to-list 'auto-mode-alist '("\.env" . conf-mode))
+(add-to-list 'auto-mode-alist '("\.env_sample" . conf-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;
