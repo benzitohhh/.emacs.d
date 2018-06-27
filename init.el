@@ -344,14 +344,16 @@
 (global-set-key (kbd "C-x f") 'find-file-in-project)
 (global-set-key (kbd "<f14>") 'recentf-open-files)
 
+;; Save
+(global-set-key (kbd "<f15>") 'save-buffer)
+
 ;; ack
-(global-set-key (kbd "<f15>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
+(global-set-key (kbd "<f16>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
                                     ;; Also don't forget... ack-same. This restricts results to files of type associated with current mode
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "<f16>") 'magit-diff)
 (global-set-key (kbd "<f17>") 'magit-log)
 
 ;; shortcuts for some useful files
@@ -648,6 +650,11 @@ the shell, hence this workaround."
             (define-key python-mode-map (kbd "M-RET") 'compile)
             (define-key python-mode-map (kbd "<s-return>") 'compile)
             (annotate-pdb)))
+
+(add-hook `inferior-python-mode-hook
+          (lambda ()
+            (local-set-key (kbd "s-k") 'comint-clear-buffer)))
+
 
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode"
