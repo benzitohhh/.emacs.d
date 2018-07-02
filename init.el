@@ -210,6 +210,7 @@
 ;; full-ack
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
+(add-to-list 'ack-project-root-file-patterns "frontend-service") ;; regex for default directory to search
 (setq ack-prompt-for-directory t) ;; always ask for directory before doing an ack search
 
 ;; Visual regex
