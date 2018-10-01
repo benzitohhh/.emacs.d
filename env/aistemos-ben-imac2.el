@@ -41,7 +41,7 @@
 (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
 
 ;; default directory
-(setq default-directory "~/Desktop/")
+(setq default-directory "~/dev/src/cipher/frontend-service/client")
 ;(setq default-directory "~/dev/src/eqip")
 
 ;; Things to know doc

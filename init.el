@@ -35,15 +35,17 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;; To use local rjsx-mode.el
+;; a) M-x package-delete (delete rjsx-mode)
+;; b) comment our rjsx-mode in the melpa list below
+;; c) uncomment the below line, loading it from a file somewhere
+;(load "/Users/benimmanuel/Desktop/rjsx-mode/rjsx-mode.el")
+
 ;; Make sure the below packages are available
 (defvar my-elpa-packages
   '(
-    ;;ac-cider
     ag
     auto-complete
-    browse-kill-ring
-    cider
-    clojure-mode
     conda
     dockerfile-mode
     dumb-jump
@@ -58,8 +60,6 @@
     full-ack
     git-gutter
     glsl-mode
-    groovy-mode
-    haskell-mode
     idle-highlight-mode
     jedi
     js-doc
@@ -73,8 +73,6 @@
     protobuf-mode
     rainbow-mode
     rjsx-mode
-    scala-mode
-    sparql-mode
     tern
     tern-auto-complete
     virtualenvwrapper
@@ -90,6 +88,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+
 ;; Add /usr/local/bin to front of the path and exec-path (otherwise emacs can't find stuff installed there)
 ;; (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 ;; (add-to-list 'exec-path "/usr/local/bin")
@@ -101,7 +100,7 @@
 ;; Unix utf8 please
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
-(set-default default-buffer-file-coding-system 'utf-8-unix)
+;(set-default default-buffer-file-coding-system 'utf-8-unix)
 
 ;; Spaces instead of tabs
 (setq-default indent-tabs-mode nil)
@@ -144,10 +143,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(haskell-mode-hook (quote (turn-on-haskell-simple-indent)))
  '(package-selected-packages
    (quote
-    (flow-minor-mode csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode cider browse-kill-ring auto-complete)))
+    (flow-minor-mode csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode auto-complete)))
  '(safe-local-variable-values
    (quote
     ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
@@ -211,17 +209,14 @@
 (require 'full-ack)
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
-(add-to-list 'ack-project-root-file-patterns "frontend-service") ;; regex for default directory to search
+;(add-to-list 'ack-project-root-file-patterns "frontend-service") ;; regex for default directory to search
+(add-to-list 'ack-project-root-file-patterns ".gitignore") ;; regex for default directory to search
 (setq ack-prompt-for-directory t) ;; always ask for directory before doing an ack search
-
-
 
 ;; Visual regex
 (require 'visual-regexp)
 ;(require 'visual-regexp-steroids) ;; for Python-style regex
 (define-key global-map (kbd "C-c r") 'vr/replace)
-(define-key global-map (kbd "C-c q") 'vr/query-replace)
-(define-key global-map (kbd "C-c m") 'vr/mc-mark) ;; for multiple cursors
 
 ;; Recent files
 (require 'recentf)
@@ -261,8 +256,8 @@
 (dolist (mode '(magit-log-edit-mode yaml-mode
                 ;; text-mode
                 yaml-mode csv-mode
-                html-mode nxml-mode sh-mode clojure-mode
-                lisp-mode  markdown-mode))
+                html-mode sh-mode
+                lisp-mode markdown-mode))
   (add-to-list 'ac-modes mode))
 (define-key ac-completing-map (kbd "C-M-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-M-p") 'ac-previous)
@@ -451,18 +446,19 @@
 
 ;; javascript
 
-;; Fix jsx indent (See http://blog.binchen.org/posts/indent-jsx-in-emacs.html)
-(defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
-  "Workaround sgml-mode and follow airbnb component style."
-  (let* ((cur-line (buffer-substring-no-properties
-                    (line-beginning-position)
-                    (line-end-position))))
-    (if (string-match "^\\( +\\)\/?> *$" cur-line)
-      (let* ((empty-spaces (match-string 1 cur-line)))
-        (replace-regexp empty-spaces
-                        (make-string (- (length empty-spaces) sgml-basic-offset) 32)
-                        nil
-                        (line-beginning-position) (line-end-position))))))
+
+;; ;; Fix jsx indent (See http://blog.binchen.org/posts/indent-jsx-in-emacs.html)
+;; (defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
+;;   "Workaround sgml-mode and follow airbnb component style."
+;;   (let* ((cur-line (buffer-substring-no-properties
+;;                     (line-beginning-position)
+;;                     (line-end-position))))
+;;     (if (string-match "^\\( +\\)\/?> *$" cur-line)
+;;       (let* ((empty-spaces (match-string 1 cur-line)))
+;;         (replace-regexp empty-spaces
+;;                         (make-string (- (length empty-spaces) sgml-basic-offset) 32)
+;;                         nil
+;;                         (line-beginning-position) (line-end-position))))))
 
 (defun get-css-module-file ()
   "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
@@ -510,7 +506,7 @@
 (add-hook 'js-mode-hook
           (lambda ()
             (auto-complete-mode t)
-            (tern-mode t)
+            ;(tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
             (define-key js2-mode-map "@" 'js-doc-insert-tag)
             (define-key js2-mode-map "\C-cm" 'create-scss-module)
@@ -564,23 +560,13 @@
             )
           )
 
-;; Groovy
-(add-to-list 'auto-mode-alist '("\\.gradle" . groovy-mode))
-(add-to-list 'auto-mode-alist '("\\.jar" . archive-mode))
-(add-hook 'groovy-mode-hook 'my-coding-hook)
-
-;; Scala
-(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-(add-to-list 'auto-mode-alist '("\\.sbt$" . scala-mode))
-(add-hook 'scala-mode-hook 'my-coding-hook)
-
 ;; Shell script
 (add-to-list 'auto-mode-alist '("\\routes$" . shell-script-mode))
 (add-hook 'shell-script-mode-hook 'my-coding-hook)
 
 (defun my-lispy-coding-hook ()
   "Stuff to apply when coding lispy languages"
-  (turn-on-elisp-slime-nav-mode) ;; hmmm perhaps only add this for elisp (not clojure)
+  (turn-on-elisp-slime-nav-mode)
   (show-paren-mode)
   (enable-paredit-mode))
 
@@ -591,17 +577,6 @@
 (define-key emacs-lisp-mode-map (kbd "C-x C-j") 'eval-print-last-sexp)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; Clojure
-(add-hook 'clojure-mode-hook 'my-coding-hook)
-(add-hook 'clojure-mode-hook 'my-lispy-coding-hook)
-
-;; (defun my-cider-setup ()
-;;   "Stuff to apply if using cider"
-;;   (remove-hook 'nrepl-connected-hook 'cider-display-connected-message) ;; remove annoying startup message
-;;   (require 'ac-cider-compliment)
-;;   (add-hook 'cider-mode-hook 'ac-cider-compliment-setup)
-;;   (eval-after-load "auto-complete"
-;;     '(add-to-list 'ac-modes cider-mode))
 
 ;; Python
 ;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
@@ -667,28 +642,6 @@ the shell, hence this workaround."
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
-;; Octave
-(add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
-(setq octave-block-offset 4)
-(add-hook 'octave-mode-hook
-	  (lambda ()
-	    (my-coding-hook)
-	    (define-key octave-mode-map (kbd "C-x C-e") 'octave-send-line)
-	    (define-key octave-mode-map (kbd "C-M-x") 'octave-send-block)))
-
-;; Sparql
-(add-to-list 'auto-mode-alist '("\\.sparql$" . sparql-mode))
-(add-to-list 'auto-mode-alist '("\\.rq$" . sparql-mode))
-(add-hook 'sparql-mode-hook
-          (lambda ()
-	    (my-coding-hook)
-            (sparql-set-base-url "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=csv&timeout=30000&debug=on")
-            (define-key sparql-mode-map (kbd "C-c C-c") 'sparql-query-region)
-            (define-key sparql-mode-map (kbd "<s-return>") 'sparql-query-region)))
-
-;; Cucumber (gherkin)
-(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
-
 ;; Yaml
 (add-to-list 'auto-mode-alist '("\\.yml" . yaml-mode))
 
@@ -700,22 +653,6 @@ the shell, hence this workaround."
 (add-to-list 'auto-mode-alist '("\.env_sample" . conf-mode))
 
 
-;;;;;;;;;;;;;;;;;;;
-;; Tempoarary
-;;;;;;;;;;;;;;;;;;;
-
-;; Example of calling a shell command
-;(global-set-key (kbd "<s-return>") 'wa-annotate)
-(defvar wa-input "input/drugFams.csv")
-(defvar wa-n 10)
-(defvar wa-output "out.html")
-(defun wa-annotate ()
-  "Call wikipedia annotate script"
-  (interactive)
-  (shell-command
-   (concat "cd /Users/benimmanuel/Desktop/wikipedia-annotate; "
-           "python annotate.py " wa-input " -n " (number-to-string wa-n)
-           " > " wa-output)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
