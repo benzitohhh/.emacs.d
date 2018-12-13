@@ -73,6 +73,7 @@
     protobuf-mode
     rainbow-mode
     rjsx-mode
+    rust-mode
     tern
     tern-auto-complete
     virtualenvwrapper
@@ -156,8 +157,8 @@
 
 ;; Magit
 (setq magit-diff-refine-hunk 'all) ;; show word-level diffs
-(setq magit-push-always-verify nil) ;; no verify please
-(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
+;(setq magit-push-always-verify nil) ;; no verify please
+;(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
@@ -283,21 +284,6 @@
           (revert-buffer t t t) )))
     (message "Refreshed open files.") )
 
-(defun shift-region (distance)
-  (let ((mark (mark)))
-    (save-excursion
-      (indent-rigidly (region-beginning) (region-end) distance)
-      (push-mark mark t t)
-      (setq deactivate-mark nil))))
-
-(defun shift-right ()
-  (interactive)
-  (shift-region 1))
-
-(defun shift-left ()
-  (interactive)
-  (shift-region -1))
-
 (defun beautify-json ()
   (interactive)
   (let ((b (if mark-active (min (point) (mark)) (point-min)))
@@ -362,9 +348,6 @@
 (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
 
 (global-set-key (kbd "C-c n") 'delete-trailing-whitespace)
-
-(global-set-key [C-S-right] 'shift-right)
-(global-set-key [C-S-left] 'shift-left)
 
 (global-set-key (kbd "C-x a") 'align-to-equals)
 
