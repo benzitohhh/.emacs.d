@@ -28,9 +28,12 @@
 ;;       python-shell-interpreter-args "--simple-prompt -i") ;; for Python 2, need to set simple prompt
 
 ;; use current ipython
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "--simple-prompt -i" ;; disable colours (maybe not necessary anymore???)
-      )
+;(setq python-shell-interpreter "ipython"
+;      python-shell-interpreter-args "--simple-prompt -i" ;; disable colours (maybe not necessary anymore???)
+;      )
+
+;; python 3  (miniconda)
+(setq python-shell-interpreter "/Users/benimmanuel/miniconda3/bin/python")
 
 ;; python path
 (setenv "PYTHONPATH" "/Users/benimmanuel/dev/src/cipher/deploy")

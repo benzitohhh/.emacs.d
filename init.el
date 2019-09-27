@@ -46,23 +46,24 @@
   '(
     ag
     auto-complete
+    company
     conda
     dockerfile-mode
     dumb-jump
     elisp-slime-nav ;; allows M-. to elisp source code
-    etags-select
     expand-region
     exec-path-from-shell
-    feature-mode
     find-file-in-project
     flx-ido
     flycheck
     full-ack
     git-gutter
     glsl-mode
+    ido-completing-read+
     idle-highlight-mode
     jedi
     js-doc
+    js-import
     js2-mode
     less-css-mode
     magit
@@ -70,12 +71,12 @@
     multiple-cursors
     paredit
     php-mode
+    projectile
     protobuf-mode
     rainbow-mode
     rjsx-mode
     rust-mode
-    tern
-    tern-auto-complete
+    tide
     virtualenvwrapper
     visual-regexp
     visual-regexp-steroids
@@ -146,7 +147,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flow-minor-mode csv-mode conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper tern-auto-complete tern sparql-mode scala-mode rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode groovy-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project feature-mode exec-path-from-shell expand-region etags-select elisp-slime-nav dumb-jump dockerfile-mode auto-complete)))
+    (company tide ido-completing-read+ conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project exec-path-from-shell expand-region elisp-slime-nav dumb-jump dockerfile-mode auto-complete)))
  '(safe-local-variable-values
    (quote
     ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
@@ -165,6 +166,9 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+(ido-everywhere 1)
+(require 'ido-completing-read+)
+(ido-ubiquitous-mode 1)
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
@@ -213,6 +217,9 @@
 ;(add-to-list 'ack-project-root-file-patterns "frontend-service") ;; regex for default directory to search
 (add-to-list 'ack-project-root-file-patterns ".gitignore") ;; regex for default directory to search
 (setq ack-prompt-for-directory t) ;; always ask for directory before doing an ack search
+(defun ack-at-point ()
+  (interactive)
+  (ack (thing-at-point 'symbol) nil (ack-guess-project-root)))
 
 ;; Visual regex
 (require 'visual-regexp)
@@ -238,7 +245,7 @@
 
 ;; Auto-complete config
 (ac-config-default)
-(global-auto-complete-mode t)
+;(global-auto-complete-mode t)
 (setq ac-auto-show-menu t)
 (setq ac-dwim t)
 (setq ac-use-menu-map t) ;; this enables extra keys (for example C-s to filter results)
@@ -256,7 +263,7 @@
                ac-source-yasnippet))
 (dolist (mode '(magit-log-edit-mode yaml-mode
                 ;; text-mode
-                yaml-mode csv-mode
+                yaml-mode
                 html-mode sh-mode
                 lisp-mode markdown-mode))
   (add-to-list 'ac-modes mode))
@@ -324,17 +331,13 @@
 (global-set-key (kbd "<f6>") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "<f7>") 'mc/mark-all-like-this)
 
-;; Find files
+;; Find file / Ack
 (global-set-key (kbd "<f13>") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'find-file-in-project)
-(global-set-key (kbd "<f14>") 'recentf-open-files)
-
-;; Save
-(global-set-key (kbd "<f15>") 'save-buffer)
-
-;; ack
-(global-set-key (kbd "<f16>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
+(global-set-key (kbd "<f14>") 'ack-at-point)
+(global-set-key (kbd "<f15>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
                                     ;; Also don't forget... ack-same. This restricts results to files of type associated with current mode
+(global-set-key (kbd "<f16>") 'recentf-open-files)
 
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
@@ -344,8 +347,6 @@
 ;; shortcuts for some useful files
 (global-set-key (kbd "<f18>") 'open-init)
 (global-set-key (kbd "<f19>") 'open-things-to-know)
-
-(global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
 
 (global-set-key (kbd "C-c n") 'delete-trailing-whitespace)
 
@@ -361,8 +362,8 @@
 
 (defun my-coding-hook ()
   "Stuff to apply when coding"
-  (if (window-system)
-      (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
+  ;; (if (window-system)
+  ;;     (idle-highlight-mode t)) ;; idle-highlight looks weird on the commandline
   (electric-pair-mode 1)
   (hl-line-mode 1) ;; highlight current line
   (set-face-background 'hl-line "#1f1b2f") ;; but make sure highlight current line is subtle
@@ -474,6 +475,24 @@
     ;; open the file
     (find-file scss-file)))
 
+(defun toggle-camelcase-underscores ()
+  "Toggle between camelcase and underscore notation for the symbol at point."
+  (interactive)
+  (save-excursion
+    (let* ((bounds (bounds-of-thing-at-point 'symbol))
+           (start (car bounds))
+           (end (cdr bounds))
+           (currently-using-underscores-p (progn (goto-char start)
+                                                 (re-search-forward "_" end t))))
+      (if currently-using-underscores-p
+          (progn
+            (upcase-initials-region start end)
+            (replace-string "_" "" nil start end)
+            (downcase-region start (1+ start)))
+        (replace-regexp "\\([A-Z]\\)" "_\\1" nil (1+ start) end)
+        (downcase-region start (cdr (bounds-of-thing-at-point 'symbol)))))))
+
+
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)
 (setq js2-bounce-indent-p t)
@@ -489,39 +508,27 @@
 (add-hook 'js-mode-hook
           (lambda ()
             (auto-complete-mode t)
-            ;(tern-mode t)
             (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
             (define-key js2-mode-map "@" 'js-doc-insert-tag)
             (define-key js2-mode-map "\C-cm" 'create-scss-module)
             (define-key js2-mode-map "\C-cc" 'open-scss-module)
+            (define-key js2-mode-map "\C-cv" 'toggle-camelcase-underscores)
+            (define-key js2-mode-map (kbd "s-i") 'js-import)
             ))
 
-(eval-after-load 'tern
-   '(progn
-      (require 'tern-auto-complete)
-      (tern-ac-setup)))
-;; Make sure there is a default ".tern-config" in home directory...
-;;   {
-;;     "plugins": {
-;;       "node": {},
-;;       "es_modules": {}
-;;     }
-;;   }
-(defun tern-delete-process ()
+;; For now... use tide + js2 + rjsxmode for javascript
+;; (for later... consider switching to tide + webmode + flycheck/eslint)
+(defun setup-tide-mode ()
   (interactive)
-  (if (get-process "Tern")
-      (delete-process "Tern")))
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+(setq company-tooltip-align-annotations t)
+(add-hook 'js2-mode-hook #'setup-tide-mode)
 
-(defun tern-debug ()
-  "On the commandline:  killall node; tern --verbose --port 50888. Then call this function."
-  (interactive)
-  (tern-delete-process)
-  (tern-use-server 50888 "127.0.0.1"))
-
-;; To debug tern:
-;;   a) M-x tern-debug
-;;   b) Start server on commandline:  killall node; tern --verbose --port 50888
-;;   c) Do stuff
 
 ;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
