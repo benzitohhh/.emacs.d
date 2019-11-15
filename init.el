@@ -530,6 +530,8 @@
 (add-hook 'js2-mode-hook #'setup-tide-mode)
 
 
+(setq js-import-quote "\'")
+
 ;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
 (add-hook 'php-mode-hook 'my-coding-hook)
