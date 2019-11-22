@@ -1,4 +1,0 @@
-# -*- coding: utf-8; mode: snippet -*-
-# name: console.table()
-# --
-console.table($0)

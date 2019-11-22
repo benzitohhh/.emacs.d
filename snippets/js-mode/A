@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+# name: Typescript React stateless component
+# --
+import React from 'react'
+
+interface $1Props {
+ foo:  string,
+ bar?: number[]
+}
+
+const $1: React.FC<$1Props> = ({ foo, bar }) => {
+  return (
+    <div></div>$0
+  )
+}
+
+export default $1

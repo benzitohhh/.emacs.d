@@ -1,8 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: various Cipher things
-# --
-import { Link } from 'react-router-dom'
-import { Row, Col } from 'reactstrap'
-import cn from 'classnames'
-// import s from './YOURCOMPONENT$0.module.css'
-// <div className={cn(s.button, {[s.button__active]: is_clicked})}

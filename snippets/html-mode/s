@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# name: <span></span>
+# --
+<span${1:}>${2:}</span>$0

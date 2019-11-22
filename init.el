@@ -375,7 +375,11 @@
   (setq js-indent-level size)
   (setq js2-basic-offset size)
   (setq sgml-basic-offset size)
-  (setq css-indent-offset size))
+  (setq css-indent-offset size)
+  (setq web-mode-markup-indent-offset size)
+  (setq web-mode-code-indent-offset size)
+  (setq web-mode-script-padding size)
+  (setq web-mode-attr-indent-offset size))
 
 (defun tabs-please ()
   "Use tabs rather than spaces"
@@ -428,29 +432,19 @@
 (setq sgml-basic-offset 2)
 (add-hook 'sgml-mode-hook 'my-coding-hook)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; javascript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;; ;; Fix jsx indent (See http://blog.binchen.org/posts/indent-jsx-in-emacs.html)
-;; (defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
-;;   "Workaround sgml-mode and follow airbnb component style."
-;;   (let* ((cur-line (buffer-substring-no-properties
-;;                     (line-beginning-position)
-;;                     (line-end-position))))
-;;     (if (string-match "^\\( +\\)\/?> *$" cur-line)
-;;       (let* ((empty-spaces (match-string 1 cur-line)))
-;;         (replace-regexp empty-spaces
-;;                         (make-string (- (length empty-spaces) sgml-basic-offset) 32)
-;;                         nil
-;;                         (line-beginning-position) (line-end-position))))))
+(defconst js-file-extension-regex "\\.[jt]sx?$")
 
 (defun get-css-module-file ()
   "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
-  (replace-regexp-in-string "\\.js" ".module.css" (buffer-file-name)))
+  (replace-regexp-in-string js-file-extension-regex ".module.css" (buffer-file-name)))
 
 (defun get-scss-module-file ()
   "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
-  (replace-regexp-in-string "\\.js" ".module.scss" (buffer-file-name)))
+  (replace-regexp-in-string js-file-extension-regex ".module.scss" (buffer-file-name)))
 
 (defun open-scss-module ()
   "Open sass css-module that corresponds to current file."
@@ -492,32 +486,15 @@
         (replace-regexp "\\([A-Z]\\)" "_\\1" nil (1+ start) end)
         (downcase-region start (cdr (bounds-of-thing-at-point 'symbol)))))))
 
+(defun my-js-hook ()
+  (interactive)
+  (global-set-key (kbd "C-c i") 'js-doc-insert-function-doc) ;; collision
+  (global-set-key (kbd "@")     'js-doc-insert-tag)
+  (global-set-key (kbd "C-c m") 'create-scss-module)
+  (global-set-key (kbd "C-c c") 'open-scss-module)
+  (global-set-key (kbd "C-c v") 'toggle-camelcase-underscores)
+  (global-set-key (kbd "s-i")    'js-import))
 
-(setq js-indent-level 2)
-(setq js2-basic-offset 2)
-(setq js2-bounce-indent-p t)
-(setq js2-indent-switch-body t) ;; indent switch statements nicely
-(setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
-;(add-to-list 'auto-mode-alist '("\\.js" . js2-mode)) ;; use this for js (no jsx)
-(add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode)) ;; use this for js
-(add-to-list 'auto-mode-alist '("\\.json" . js-mode))
-;(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
-;(add-to-list 'auto-mode-alist '("page/.*\\.js\\'" . rjsx-mode))          ;; also use this for jsx
-;; (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode)) ;; use this for jsx
-(add-hook 'js-mode-hook 'my-coding-hook)
-(add-hook 'js-mode-hook
-          (lambda ()
-            (auto-complete-mode t)
-            (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
-            (define-key js2-mode-map "@" 'js-doc-insert-tag)
-            (define-key js2-mode-map "\C-cm" 'create-scss-module)
-            (define-key js2-mode-map "\C-cc" 'open-scss-module)
-            (define-key js2-mode-map "\C-cv" 'toggle-camelcase-underscores)
-            (define-key js2-mode-map (kbd "s-i") 'js-import)
-            ))
-
-;; For now... use tide + js2 + rjsxmode for javascript
-;; (for later... consider switching to tide + webmode + flycheck/eslint)
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -527,30 +504,81 @@
   (tide-hl-identifier-mode +1)
   (company-mode +1))
 (setq company-tooltip-align-annotations t)
-(add-hook 'js2-mode-hook #'setup-tide-mode)
 
+;; By default, set all js/html/css indents to 2
+(set-indent-level-web 2)
 
+;; For js import, use single quote
 (setq js-import-quote "\'")
+
+;; js / jsx - use rjsx mode
+(add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx" . rjsx-mode))
+
+;; ts / tsx - use web mode
+(add-to-list 'auto-mode-alist '("\\.ts" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx" . web-mode))
+
+;; json - use js-mode
+(add-to-list 'auto-mode-alist '("\\.json" . js-mode))                                        ;(add-to-list 'auto-mode-alist '("component.*\\/.*\\.js\\'" . rjsx-mode)) ;; use this for jsx
+
+;; js-mode
+(add-hook 'js-mode-hook
+          (lambda ()
+            (my-coding-hook)
+            (my-js-hook)
+            (auto-complete-mode t)
+            ))
+
+;; js2-mode (extends js-mode)
+(setq js2-bounce-indent-p t)
+(setq js2-indent-switch-body t) ;; indent switch statements nicely
+(setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (setup-tide-mode)
+            ))
+
+;; js2-mode + flycheck....
+;; To get Flycheck to use jsx-tide with .js files, need to override the checker like this
+;; For now this is disabled (i.e. commented out below) as it flags up too many warnings. TODO: investigate.
+;; Meanwhile... just uing eslint
+;; (flycheck-define-generic-checker 'jsx-tide
+;;   "A JSX syntax checker using tsserver."
+;;   :start #'tide-flycheck-start
+;;   :verify #'tide-flycheck-verify
+;;   :modes '(web-mode js2-jsx-mode rjsx-mode)
+;;   :predicate (lambda ()
+;;                (and
+;;                 (tide-file-extension-p "js")
+;;                 (tide-flycheck-predicate))))
+
+;; Web mode
+;(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ftl\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (set-face-foreground 'web-mode-html-tag-face "Orange3")
+            (set-face-foreground 'web-mode-html-attr-name-face "seagreen1")
+            (set-face-foreground 'web-mode-function-call-face "lightgoldenrod3")
+
+            (setq-default web-mode-comment-formats (remove '("javascript" . "/*") web-mode-comment-formats))
+            (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
+
+            (my-coding-hook)
+            (my-js-hook)
+
+            (setup-tide-mode)
+
+            ;; configure jsx-tide checker to run after your default jsx checker
+            (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+            )
+          )
 
 ;; Php
 (add-to-list 'auto-mode-alist '("\\.php" . php-mode))
 (add-hook 'php-mode-hook 'my-coding-hook)
-
-;; Web mode
-;; (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-;; (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ftl\\'" . web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            ;(setq web-mode-code-indent-offset 4)
-            (setq-default web-mode-comment-formats (remove '("javascript" . "/*") web-mode-comment-formats))
-            (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
-	    (my-coding-hook)
-            (auto-complete-mode)
-            )
-          )
 
 ;; Shell script
 (add-to-list 'auto-mode-alist '("\\routes$" . shell-script-mode))
@@ -570,7 +598,10 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
 (require 'conda)
 ;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")

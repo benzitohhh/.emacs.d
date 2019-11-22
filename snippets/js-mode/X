@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+# name: Typescript React ES6 Class
+# --
+import React from 'react'
+
+interface $1Props {
+ foo:  string,
+ bar?: number[]
+}
+
+interface $1State {
+}
+
+class $1 extends React.Component<$1Props, $1State> {
+  constructor(props: $1Props) {
+    super(props)
+    this.state = {}
+    // this.method = this.method.bind(this) // bind "this"
+  }
+  componentWillMount() {}
+  componentDidMount() {}
+  componentWillReceiveProps(nextProps) {}
+  shouldComponentUpdate(nextProps, nextState) {}
+  componentWillUpdate(nextProps, nextState) {}
+  componentDidUpdate(prevProps, prevState) {}
+  componentWillUnmount() {}
+  componentDidCatch(error, errorInfo) {}
+
+  render() {
+    return (
+      <div></div>$0
+    )
+  }
+}
+
+export default $1
