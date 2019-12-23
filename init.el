@@ -396,6 +396,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
+            (flycheck-mode +1)
             (setq comment-start "//" comment-end "") ;; comments with //, not /* */
             ;; When compile is called, it asks for a compile command...
             ;;   Simple compile command: "make -k"
@@ -403,8 +404,9 @@
             (define-key c-mode-map (kbd "C-x x") 'compile)
             (define-key c-mode-map (kbd "M-RET") 'compile)
             (define-key c-mode-map (kbd "<s-return>") 'compile)
-            (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)))
-
+            (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)
+            (define-key c-mode-map (kbd "C-x m") 'man))
+          )
 
 ;; GLSL
 (add-hook 'glsl-mode-hook
@@ -671,9 +673,11 @@ the shell, hence this workaround."
 ;; Conf
 (add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
 ;;(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
-(add-to-list 'auto-mode-alist '("cipher\-conf" . conf-mode))
-(add-to-list 'auto-mode-alist '("\.env" . conf-mode))
-(add-to-list 'auto-mode-alist '("\.env_sample" . conf-mode))
+(add-to-list 'auto-mode-alist '("cipher\-conf$" . conf-mode))
+(add-to-list 'auto-mode-alist '("\.env$" . conf-mode))
+(add-to-list 'auto-mode-alist '("\.env_sample$" . conf-mode))
+
+(add-to-list 'auto-mode-alist '("\.cli$" . shell-script-mode))
 
 
 (custom-set-faces
