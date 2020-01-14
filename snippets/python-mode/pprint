@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: pprint
+# --
+import pprint
+pprint.pprint(data)
