@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+# name: requests
+# expand-env: ((yas-indent-line 'fixed))
+# --
+import json
+import requests
+host = 'http://maps.googleapis.com/maps/api/geocode/json'
+url = f'{HOST}/maps/api/geocode/json'
+data = {'address': 'delhi technological university'}
+headers = {'content-type': 'application/json'}
+r = requests.get(url = url, data = json.dumps(query), headers = headers)
+r.raise_for_status() # throws Error if non 2xx or 3xx
+status_code = r.status_code
+content_type = r.headers['content-type']
+encoding = r.encoding
+text = r.text
+data = r.json()
