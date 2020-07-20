@@ -241,6 +241,7 @@
 
 ;; Dumb jump mode always
 (dumb-jump-mode)
+(add-to-list 'xref-backend-functions #'dumb-jump-xref-activate)
 (define-key global-map (kbd "C-M-f") 'dumb-jump-go-prefer-external) ;; useful for jumping to references
 
 ;; Auto-complete config
@@ -387,6 +388,14 @@
   (setq-default indent-tabs-mode t)
   (web-mode-use-tabs))
 
+
+;; Protobuffer
+(defconst my-protobuf-style
+  '((c-basic-offset . 2)
+    (indent-tabs-mode . nil)))
+(add-hook 'protobuf-mode-hook
+          (lambda () (c-add-style "my-style" my-protobuf-style t)))
+
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
@@ -512,6 +521,7 @@
 
 ;; For js import, use single quote
 (setq js-import-quote "\'")
+(setq projectile-git-submodule-command nil) ;; currently projectile can't deal with submodules (projectile used by js-import)
 
 ;; js / jsx - use rjsx mode
 (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode))
