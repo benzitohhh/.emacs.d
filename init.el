@@ -615,10 +615,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
-(require 'conda)
+;(require 'conda)
 ;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
 ;; i.e. then to activate an env, M-x conda-env-activate <ret> py2
-(conda-env-activate "py3") ;; temp: use python2!!!
+;(conda-env-activate "py3")
+;; ALSO: see ./env/ folder for pointing jedi home to different python envs (usefulf for seeing 3rd party source code)
 (defun annotate-pdb ()
   (interactive)
   (highlight-lines-matching-regexp "import pdb")
