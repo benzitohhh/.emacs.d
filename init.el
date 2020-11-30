@@ -184,6 +184,7 @@
          "*target/universal*"
          "*/.target/*"
          "*/.build/*"
+         "*/dist/*"
          "*/build/*"
          "*/site-packages/*")
        " "))
