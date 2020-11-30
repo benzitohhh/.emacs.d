@@ -242,6 +242,7 @@
 
 ;; Dumb jump mode always
 (dumb-jump-mode)
+(add-to-list 'xref-backend-functions #'dumb-jump-xref-activate)
 (define-key global-map (kbd "C-M-f") 'dumb-jump-go-prefer-external) ;; useful for jumping to references
 
 ;; Auto-complete config
@@ -388,6 +389,14 @@
   (setq-default indent-tabs-mode t)
   (web-mode-use-tabs))
 
+
+;; Protobuffer
+(defconst my-protobuf-style
+  '((c-basic-offset . 2)
+    (indent-tabs-mode . nil)))
+(add-hook 'protobuf-mode-hook
+          (lambda () (c-add-style "my-style" my-protobuf-style t)))
+
 ;; C and C++
 (setq c-basic-offset 4)
 (c-set-offset 'case-label '+)
@@ -397,6 +406,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
 	    (my-coding-hook)
+            (flycheck-mode +1)
             (setq comment-start "//" comment-end "") ;; comments with //, not /* */
             ;; When compile is called, it asks for a compile command...
             ;;   Simple compile command: "make -k"
@@ -404,8 +414,9 @@
             (define-key c-mode-map (kbd "C-x x") 'compile)
             (define-key c-mode-map (kbd "M-RET") 'compile)
             (define-key c-mode-map (kbd "<s-return>") 'compile)
-            (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)))
-
+            (define-key c-mode-map (kbd "M-,") 'pop-tag-mark)
+            (define-key c-mode-map (kbd "C-x m") 'man))
+          )
 
 ;; GLSL
 (add-hook 'glsl-mode-hook
@@ -511,6 +522,7 @@
 
 ;; For js import, use single quote
 (setq js-import-quote "\'")
+(setq projectile-git-submodule-command nil) ;; currently projectile can't deal with submodules (projectile used by js-import)
 
 ;; js / jsx - use rjsx mode
 (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode))
@@ -604,10 +616,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
-(require 'conda)
+;(require 'conda)
 ;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
 ;; i.e. then to activate an env, M-x conda-env-activate <ret> py2
-(conda-env-activate "py3") ;; temp: use python2!!!
+;(conda-env-activate "py3")
+;; ALSO: see ./env/ folder for pointing jedi home to different python envs (usefulf for seeing 3rd party source code)
 (defun annotate-pdb ()
   (interactive)
   (highlight-lines-matching-regexp "import pdb")
@@ -672,9 +685,11 @@ the shell, hence this workaround."
 ;; Conf
 (add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
 ;;(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
-(add-to-list 'auto-mode-alist '("cipher\-conf" . conf-mode))
-(add-to-list 'auto-mode-alist '("\.env" . conf-mode))
-(add-to-list 'auto-mode-alist '("\.env_sample" . conf-mode))
+(add-to-list 'auto-mode-alist '("cipher\-conf$" . conf-mode))
+(add-to-list 'auto-mode-alist '("\.env$" . conf-mode))
+(add-to-list 'auto-mode-alist '("\.env_sample$" . conf-mode))
+
+(add-to-list 'auto-mode-alist '("\.cli$" . shell-script-mode))
 
 
 (custom-set-faces
