@@ -50,6 +50,9 @@
 ;; Things to know doc
 (setq things-to-know-file "~/Documents/thingsToKnow/thingsToKnowOhOh.txt")
 
+;; Aistemos Things to know doc
+(setq aistemos-things-to-know-file "~/Desktop/cipherMisc/aistemos_thingsToKnow.txt")
+
 ;; tag tables
 ;;(setq tags-table-list
 ;;           '("/opt/local/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/site-packages/django/TAGS"))

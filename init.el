@@ -310,6 +310,11 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
+(defun open-aistemos-things-to-know ()
+  "Open aistemos_thingsToKnow.txt"
+  (interactive)
+  (find-file aistemos-things-to-know-file)) ;; this var is defined in env file
+
 (defun kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
@@ -325,7 +330,7 @@
 (global-set-key "\M-`" 'other-frame)
 
 ;; expand region
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "<C-S-right>") 'er/expand-region)
 
 ;; multiple cursors
 (global-set-key (kbd "<f1>") 'set-rectangular-region-anchor)
@@ -344,10 +349,10 @@
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "<f17>") 'magit-log)
 
 ;; shortcuts for some useful files
-(global-set-key (kbd "<f18>") 'open-init)
+(global-set-key (kbd "<f17>") 'open-init)
+(global-set-key (kbd "<f18>") 'open-aistemos-things-to-know)
 (global-set-key (kbd "<f19>") 'open-things-to-know)
 
 (global-set-key (kbd "C-c n") 'delete-trailing-whitespace)
@@ -601,7 +606,8 @@
   "Stuff to apply when coding lispy languages"
   (turn-on-elisp-slime-nav-mode)
   (show-paren-mode)
-  (enable-paredit-mode))
+  ;;(enable-paredit-mode)
+)
 
 ;; EmacsLisp
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
