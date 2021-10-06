@@ -154,6 +154,8 @@
    '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
 
+;; ffip - to initialise a new project, run M-x ffip-create-project-file    - this drops a .dir-locals.el file, allowing for search with multiple nested git subprojectrs or modules.
+
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
