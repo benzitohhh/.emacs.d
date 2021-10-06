@@ -31,8 +31,11 @@
 
 ;; Marmalade, Melpa package archive
 (require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 ;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))  ;; hmmm sometimes marmalade is offline...
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; NOTE: if you have problems, try doing M-x package-refresh-contents (or M-x package-list-packages)
 (package-initialize)
 
 ;; To use local rjsx-mode.el
@@ -146,11 +149,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (company tide ido-completing-read+ conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project exec-path-from-shell expand-region elisp-slime-nav dumb-jump dockerfile-mode auto-complete)))
+   '(company tide ido-completing-read+ conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project exec-path-from-shell expand-region elisp-slime-nav dumb-jump dockerfile-mode auto-complete))
  '(safe-local-variable-values
-   (quote
-    ((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend"))))
+   '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
 
 ;; Git gutter always
