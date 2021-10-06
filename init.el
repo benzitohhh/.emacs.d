@@ -331,7 +331,8 @@
 (global-set-key "\M-`" 'other-frame)
 
 ;; expand region
-(global-set-key (kbd "<C-S-right>") 'er/expand-region)
+;(global-set-key (kbd "<C-S-right>") 'er/expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; multiple cursors
 (global-set-key (kbd "<f1>") 'set-rectangular-region-anchor)
