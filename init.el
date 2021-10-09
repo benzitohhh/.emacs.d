@@ -345,6 +345,7 @@
 ;; Find file / Ack
 (global-set-key (kbd "<f13>") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'find-file-in-project)
+(global-set-key (kbd "s-p") 'find-file-in-project)
 (global-set-key (kbd "<f14>") 'ack-at-point)
 (global-set-key (kbd "<f15>") 'ack) ;; By default, ack takes a regex. To pass it a literal, use C-u prefix
                                     ;; Also don't forget... ack-same. This restricts results to files of type associated with current mode
