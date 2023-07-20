@@ -251,6 +251,7 @@
 ;; Auto-complete config
 (ac-config-default)
 ;(global-auto-complete-mode t)
+(setq auto-save-default nil)
 (setq ac-auto-show-menu t)
 (setq ac-dwim t)
 (setq ac-use-menu-map t) ;; this enables extra keys (for example C-s to filter results)
@@ -397,7 +398,14 @@
   "Use tabs rather than spaces"
   (interactive)
   (setq-default indent-tabs-mode t)
-  (web-mode-use-tabs))
+  ;(web-mode-use-tabs)
+)
+
+(defun spaces-please ()
+  "Use spaces rather than tabs"
+  (interactive)
+  (setq-default indent-tabs-mode nil)
+)
 
 
 ;; Protobuffer
