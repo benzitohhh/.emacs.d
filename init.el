@@ -148,8 +148,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(company tide ido-completing-read+ conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project exec-path-from-shell expand-region elisp-slime-nav dumb-jump dockerfile-mode auto-complete))
+ '(package-selected-packages nil)
  '(safe-local-variable-values
    '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
@@ -314,10 +313,10 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
-(defun open-aistemos-things-to-know ()
-  "Open aistemos_thingsToKnow.txt"
+(defun open-job-things-to-know ()
+  "Open job thingsToKnow file"
   (interactive)
-  (find-file aistemos-things-to-know-file)) ;; this var is defined in env file
+  (find-file job-things-to-know-file)) ;; this var is defined in env file
 
 (defun kill-other-buffers ()
     "Kill all other buffers."
