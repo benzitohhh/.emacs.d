@@ -313,10 +313,15 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
-(defun open-job-things-to-know ()
-  "Open job thingsToKnow file"
+(defun open-ufonia-things-to-know ()
+  "Open ufonia thingsToKnow file"
   (interactive)
-  (find-file job-things-to-know-file)) ;; this var is defined in env file
+  (find-file ufonia-things-to-know-file)) ;; this var is defined in env file
+
+(defun open-details-things-to-know ()
+  "Open detailsThingsToKnow file"
+  (interactive)
+  (find-file details-things-to-know-file)) ;; this var is defined in env file
 
 (defun kill-other-buffers ()
     "Kill all other buffers."

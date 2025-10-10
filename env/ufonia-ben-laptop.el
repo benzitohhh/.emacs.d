@@ -44,8 +44,13 @@
 ;; Things to know doc
 (setq things-to-know-file "~/dev/src/thingsToKnow/thingsToKnowOhOh.txt")
 
-;; Job Things to know doc
-(setq job-things-to-know-file "~/dev/src/ufonia-notes/ufonia_things_to_know.md")
+;; Ufonia Things to know doc
+(setq ufonia-things-to-know-file "~/dev/src/ufonia-notes/ufonia_things_to_know.md")
+
+;; Details Things to know doc
+(setq details-things-to-know-file "~/dev/src/ufonia-notes/ufonia_conversation_projects.md")
+
+
 
 ;; tag tables
 ;;(setq tags-table-list
