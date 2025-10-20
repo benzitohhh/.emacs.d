@@ -308,6 +308,18 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer
+          (delq (current-buffer)
+                (remove-if-not 'buffer-file-name (buffer-list)))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Things to know files
+;;;;;;;;;;;;;;;;;;;;;;
+
 (defun open-things-to-know ()
   "Open thingsToKnow.txt"
   (interactive)
@@ -318,17 +330,6 @@
   (interactive)
   (find-file ufonia-things-to-know-file)) ;; this var is defined in env file
 
-(defun open-details-things-to-know ()
-  "Open detailsThingsToKnow file"
-  (interactive)
-  (find-file details-things-to-know-file)) ;; this var is defined in env file
-
-(defun kill-other-buffers ()
-    "Kill all other buffers."
-    (interactive)
-    (mapc 'kill-buffer
-          (delq (current-buffer)
-                (remove-if-not 'buffer-file-name (buffer-list)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings

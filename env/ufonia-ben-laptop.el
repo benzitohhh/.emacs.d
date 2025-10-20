@@ -32,7 +32,6 @@
 ;; python path
 ;(setenv "PYTHONPATH" "/Users/benimmanuel/dev/src/cipher/deploy")
 
-
 ;; python jedi environment root
 ;;(setq jedi:environment-root "/Users/benimmanuel/.virtualenvs/pandas")
 ;(setq conda-anaconda-home "/opt/miniconda3")
@@ -46,11 +45,6 @@
 
 ;; Ufonia Things to know doc
 (setq ufonia-things-to-know-file "~/dev/src/ufonia-notes/ufonia_things_to_know.md")
-
-;; Details Things to know doc
-(setq details-things-to-know-file "~/dev/src/ufonia-notes/ufonia_conversation_projects.md")
-
-
 
 ;; tag tables
 ;;(setq tags-table-list
