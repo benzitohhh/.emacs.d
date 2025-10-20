@@ -374,6 +374,9 @@
 (global-set-key (kbd "s-k") 'erase-buffer)
 (put 'erase-buffer 'disabled nil)
 
+(global-set-key (kbd "M-z") 'toggle-truncate-lines)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
