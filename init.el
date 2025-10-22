@@ -176,6 +176,19 @@
   (git-gutter:update-all-windows)
   (message "Quick commit and push completed!"))
 
+(defun quick-magit-commit ()
+  "Stage all changes, commit with message, and push."
+  (interactive)
+  (let ((default-directory (or (magit-toplevel) default-directory)))
+    (when (magit-toplevel)
+      (magit-stage-modified)
+      (magit-run-git "commit" "-m" "more stuff")
+      (magit-run-git "push")))
+  (git-gutter:update-all-windows)
+  (message "Quick commit and push completed!"))
+
+
+
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
 (setq ido-enable-flex-matching t)
