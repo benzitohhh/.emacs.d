@@ -173,7 +173,7 @@
       (message "Git push...")
       (magit-run-git "push")))
   (git-gutter:update-all-windows)
-  (message "Git push... completed ok"))
+  (message "Git push completed ok"))
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
