@@ -428,7 +428,6 @@
   (setq-default indent-tabs-mode nil)
 )
 
-
 ;; Protobuffer
 (defconst my-protobuf-style
   '((c-basic-offset . 2)
