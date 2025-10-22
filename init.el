@@ -164,7 +164,7 @@
 ;(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
 
 (defun quick-magit-commit ()
-  "Stage all changes, commit with message, and push."
+  "Stage all changes, commit with default message, and push."
   (interactive)
   (let ((default-directory (or (magit-toplevel) default-directory)))
     (when (magit-toplevel)
