@@ -173,6 +173,7 @@
         (when (not (string-empty-p commit-message))
           (magit-run-git "commit" "-m" commit-message)
           (magit-run-git "push")))))
+  (git-gutter:update-all-windows)
   (message "Quick commit and push completed!"))
 
 ;; Ido mode please (with flx - fuzzy matching)
