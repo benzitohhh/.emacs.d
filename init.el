@@ -163,18 +163,18 @@
 ;(setq magit-push-always-verify nil) ;; no verify please
 ;(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
 
-(defun quick-magit-commit ()
-  "Stage all changes, commit with message, and push."
-  (interactive)
-  (let ((default-directory (or (magit-toplevel) default-directory)))
-    (when (magit-toplevel)
-      (magit-stage-modified)
-      (let ((commit-message (read-string "Commit message: ")))
-        (when (not (string-empty-p commit-message))
-          (magit-run-git "commit" "-m" commit-message)
-          (magit-run-git "push")))))
-  (git-gutter:update-all-windows)
-  (message "Quick commit and push completed!"))
+;; (defun quick-magit-commit ()
+;;   "Stage all changes, commit with message, and push."
+;;   (interactive)
+;;   (let ((default-directory (or (magit-toplevel) default-directory)))
+;;     (when (magit-toplevel)
+;;       (magit-stage-modified)
+;;       (let ((commit-message (read-string "Commit message: ")))
+;;         (when (not (string-empty-p commit-message))
+;;           (magit-run-git "commit" "-m" commit-message)
+;;           (magit-run-git "push")))))
+;;   (git-gutter:update-all-windows)
+;;   (message "Quick commit and push completed!"))
 
 (defun quick-magit-commit ()
   "Stage all changes, commit with message, and push."
