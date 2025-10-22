@@ -170,7 +170,7 @@
     (when (magit-toplevel)
       (magit-stage-modified)
       (magit-run-git "commit" "-m" "more stuff")
-      (message "Git push..."))
+      (message "Git push...")
       (magit-run-git "push")))
   (git-gutter:update-all-windows)
   (message "Git push completed ok"))
