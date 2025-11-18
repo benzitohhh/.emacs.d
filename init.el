@@ -148,7 +148,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(ag company conda dockerfile-mode dumb-jump elisp-slime-nav
+        exec-path-from-shell expand-region find-file-in-project
+        flx-ido full-ack git-gutter glsl-mode idle-highlight-mode
+        ido-completing-read+ jedi js-doc js-import magit markdown-mode
+        multiple-cursors paredit php-mode protobuf-mode rainbow-mode
+        rjsx-mode rust-mode tide virtualenvwrapper
+        visual-regexp-steroids web-mode whitespace-cleanup-mode
+        yaml-mode yasnippet zenburn-theme))
  '(safe-local-variable-values
    '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
@@ -387,7 +395,9 @@
 (global-set-key (kbd "s-k") 'erase-buffer)
 (put 'erase-buffer 'disabled nil)
 
+;; Useful text-wrapping shortcuts
 (global-set-key (kbd "M-z") 'toggle-truncate-lines)
+(global-set-key (kbd "C-M-z") 'visual-line-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
