@@ -152,7 +152,7 @@
    '(ag company conda dockerfile-mode dumb-jump elisp-slime-nav
         exec-path-from-shell expand-region find-file-in-project
         flx-ido full-ack git-gutter glsl-mode idle-highlight-mode
-        ido-completing-read+ jedi js-doc js-import magit markdown-mode
+        ido-completing-read+ jedi js-doc js-import markdown-mode
         multiple-cursors paredit php-mode protobuf-mode rainbow-mode
         rjsx-mode rust-mode tide virtualenvwrapper
         visual-regexp-steroids web-mode whitespace-cleanup-mode
