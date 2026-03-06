@@ -352,6 +352,21 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
+;; Claude Code related
+;;;;;;;;;;;;;;;;;;;;;;
+(defun strip-claude-code-indent ()
+  "Remove two-space left indent from Claude Code output in region."
+  (interactive)
+  (let ((start (region-beginning))
+        (end (region-end)))
+    (save-excursion
+      (goto-char start)
+      (while (re-search-forward "^  " end t)
+        (replace-match "")
+        (setq end (- end 2))))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -399,6 +414,8 @@
 (global-set-key (kbd "M-z") 'toggle-truncate-lines)
 (global-set-key (kbd "C-M-z") 'visual-line-mode)
 
+;; Claude Code strip
+(global-set-key (kbd "<f8>") 'strip-claude-code-indent)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
