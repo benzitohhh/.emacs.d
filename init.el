@@ -355,16 +355,24 @@
 ;; Claude Code related
 ;;;;;;;;;;;;;;;;;;;;;;
 (defun strip-claude-code-indent ()
-  "Remove two-space left indent from Claude Code output in region."
-  (interactive)
-  (let ((start (region-beginning))
-        (end (region-end)))
-    (save-excursion
-      (goto-char start)
-      (while (re-search-forward "^  " end t)
-        (replace-match "")
-        (setq end (- end 2))))))
-
+    "Clean Claude Code output in region: remove two-space indent, trailing spaces, and join single linebreaks."
+    (interactive)
+    (let ((start (region-beginning))
+          (end (region-end)))
+      (save-restriction
+        (narrow-to-region start end)
+        ;; Remove two-space indent
+        (goto-char (point-min))
+        (while (re-search-forward "^  " nil t)
+          (replace-match ""))
+        ;; Remove trailing spaces
+        (goto-char (point-min))
+        (while (re-search-forward "[[:space:]]+$" nil t)
+          (replace-match ""))
+        ;; Join single linebreaks (preserve double+ linebreaks as paragraph breaks)
+        (goto-char (point-min))
+        (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" nil t)
+          (replace-match "\\1 \\2")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
