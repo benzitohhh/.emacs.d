@@ -70,6 +70,7 @@
     js2-mode
     less-css-mode
     magit
+    magit-delta
     markdown-mode
     multiple-cursors
     paredit
@@ -148,15 +149,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(ag company conda dockerfile-mode dumb-jump elisp-slime-nav
-        exec-path-from-shell expand-region find-file-in-project
-        flx-ido full-ack git-gutter glsl-mode idle-highlight-mode
-        ido-completing-read+ jedi js-doc js-import markdown-mode
-        multiple-cursors paredit php-mode protobuf-mode rainbow-mode
-        rjsx-mode rust-mode tide virtualenvwrapper
-        visual-regexp-steroids web-mode whitespace-cleanup-mode
-        yaml-mode yasnippet zenburn-theme))
+ '(package-selected-packages nil)
  '(safe-local-variable-values
    '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
@@ -165,6 +158,10 @@
 
 ;; Git gutter always
 (global-git-gutter-mode +1)
+
+;; Magit-delta (NOTE: need to install git-delta i.e. "brew install git-delta")
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
 
 ;; Magit
 (setq magit-diff-refine-hunk 'all) ;; show word-level diffs
