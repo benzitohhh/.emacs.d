@@ -371,6 +371,13 @@
       (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" nil t)
         (replace-match "\\1 \\2")))))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Conductor copy-paste stuff (probably can delete soon!)
+;;;;;;;;;;;;;;;;;;;;;;
+(load (expand-file-name "scripts/conductor-transcript-clean.el" user-emacs-directory))
+(global-set-key (kbd "<f9>") 'conductor-clean-transcript)
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 ;;;;;;;;;;;;;;;;;;;;;;
