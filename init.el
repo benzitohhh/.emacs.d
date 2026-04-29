@@ -168,17 +168,21 @@
 ;(setq magit-push-always-verify nil) ;; no verify please
 ;(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
 
+
 (defun quick-magit-commit ()
   "Stage all changes, commit with default message, and push."
   (interactive)
+  (require 'magit)
   (let ((default-directory (or (magit-toplevel) default-directory)))
     (when (magit-toplevel)
       (magit-stage-modified)
       (magit-run-git "commit" "-m" "more stuff")
       (message "Git push...")
       (magit-run-git "push")))
-  (git-gutter:update-all-windows)
+  (when (fboundp 'git-gutter:update-all-windows)
+    (git-gutter:update-all-windows))
   (message "Git push completed ok"))
+
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
