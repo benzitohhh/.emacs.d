@@ -346,6 +346,11 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
+(defun lsi ()
+  "Open lsi notes file"
+  (interactive)
+  (find-file lsi-notes-file)) ;; this var is defined in env file
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Claude Code related

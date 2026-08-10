@@ -50,6 +50,9 @@
 ;; Things to know doc
 (setq things-to-know-file "~/Documents/thingsToKnow/thingsToKnowOhOh.txt")
 
+;; LSI notes doc
+(setq lsi-notes-file "~/dev/src/lsi-notes/README.md")
+
 ;; Aistemos Things to know doc
 ;(setq aistemos-things-to-know-file "~/Desktop/cipherMisc/aistemos_thingsToKnow.txt")
 
