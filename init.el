@@ -70,6 +70,7 @@
     js2-mode
     less-css-mode
     magit
+    magit-delta
     markdown-mode
     multiple-cursors
     paredit
@@ -148,8 +149,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(company tide ido-completing-read+ conda protobuf-mode zenburn-theme yasnippet whitespace-cleanup-mode web-mode visual-regexp-steroids visual-regexp virtualenvwrapper rainbow-mode php-mode paredit multiple-cursors markdown-mode magit less-css-mode js2-mode js-doc jedi idle-highlight-mode haskell-mode glsl-mode git-gutter full-ack flycheck flx-ido find-file-in-project exec-path-from-shell expand-region elisp-slime-nav dumb-jump dockerfile-mode auto-complete))
+ '(package-selected-packages nil)
  '(safe-local-variable-values
    '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
@@ -159,10 +159,30 @@
 ;; Git gutter always
 (global-git-gutter-mode +1)
 
+;; Magit-delta (NOTE: need to install git-delta i.e. "brew install git-delta")
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
 ;; Magit
 (setq magit-diff-refine-hunk 'all) ;; show word-level diffs
 ;(setq magit-push-always-verify nil) ;; no verify please
 ;(setq magit-status-buffer-switch-function 'switch-to-buffer) ;; open magit-status in a full window
+
+
+(defun quick-magit-commit ()
+  "Stage all changes, commit with default message, and push."
+  (interactive)
+  (require 'magit)
+  (let ((default-directory (or (magit-toplevel) default-directory)))
+    (when (magit-toplevel)
+      (magit-stage-modified)
+      (magit-run-git "commit" "-m" "more stuff")
+      (message "Git push...")
+      (magit-run-git "push")))
+  (when (fboundp 'git-gutter:update-all-windows)
+    (git-gutter:update-all-windows))
+  (message "Git push completed ok"))
+
 
 ;; Ido mode please (with flx - fuzzy matching)
 (require 'flx-ido)
@@ -251,6 +271,7 @@
 ;; Auto-complete config
 (ac-config-default)
 ;(global-auto-complete-mode t)
+(setq auto-save-default nil)
 (setq ac-auto-show-menu t)
 (setq ac-dwim t)
 (setq ac-use-menu-map t) ;; this enables extra keys (for example C-s to filter results)
@@ -308,22 +329,58 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
-(defun open-things-to-know ()
-  "Open thingsToKnow.txt"
-  (interactive)
-  (find-file things-to-know-file)) ;; this var is defined in env file
-
-(defun open-aistemos-things-to-know ()
-  "Open aistemos_thingsToKnow.txt"
-  (interactive)
-  (find-file aistemos-things-to-know-file)) ;; this var is defined in env file
-
 (defun kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
     (mapc 'kill-buffer
           (delq (current-buffer)
                 (remove-if-not 'buffer-file-name (buffer-list)))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Things to know files
+;;;;;;;;;;;;;;;;;;;;;;
+
+(defun open-things-to-know ()
+  "Open thingsToKnow.txt"
+  (interactive)
+  (find-file things-to-know-file)) ;; this var is defined in env file
+
+(defun open-ufonia-things-to-know ()
+  "Open ufonia thingsToKnow file"
+  (interactive)
+  (find-file ufonia-things-to-know-file)) ;; this var is defined in env file
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Claude Code related
+;;;;;;;;;;;;;;;;;;;;;;
+(defun strip-claude-code-indent ()
+  "Clean Claude Code output in region: remove two-space indent, trailing spaces, and join single linebreaks."
+  (interactive)
+  (let ((start (region-beginning))
+        (end (region-end)))
+    (save-restriction
+      (narrow-to-region start end)
+      ;; Remove two-space indent
+      (goto-char (point-min))
+      (while (re-search-forward "^  " nil t)
+        (replace-match ""))
+      ;; Remove trailing spaces
+      (goto-char (point-min))
+      (while (re-search-forward "[[:space:]]+$" nil t)
+        (replace-match ""))
+      ;; Join single linebreaks (preserve double+ linebreaks as paragraph breaks)
+      (goto-char (point-min))
+      (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" nil t)
+        (replace-match "\\1 \\2")))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; Conductor copy-paste stuff (probably can delete soon!)
+;;;;;;;;;;;;;;;;;;;;;;
+(load (expand-file-name "scripts/conductor-transcript-clean.el" user-emacs-directory))
+(global-set-key (kbd "<f9>") 'conductor-clean-transcript)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -354,6 +411,7 @@
 ;; Magit
 (global-set-key (kbd "s-r") 'magit-status)
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "s-t") 'quick-magit-commit)
 
 ;; shortcuts for some useful files
 (global-set-key (kbd "<f17>") 'open-init)
@@ -367,6 +425,13 @@
 ;; Shortcut for wiping buffer
 (global-set-key (kbd "s-k") 'erase-buffer)
 (put 'erase-buffer 'disabled nil)
+
+;; Useful text-wrapping shortcuts
+(global-set-key (kbd "M-z") 'toggle-truncate-lines)
+(global-set-key (kbd "C-M-z") 'visual-line-mode)
+
+;; Claude Code strip
+(global-set-key (kbd "<f8>") 'strip-claude-code-indent)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
@@ -397,8 +462,14 @@
   "Use tabs rather than spaces"
   (interactive)
   (setq-default indent-tabs-mode t)
-  (web-mode-use-tabs))
+  ;(web-mode-use-tabs)
+)
 
+(defun spaces-please ()
+  "Use spaces rather than tabs"
+  (interactive)
+  (setq-default indent-tabs-mode nil)
+)
 
 ;; Protobuffer
 (defconst my-protobuf-style

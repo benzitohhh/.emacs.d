@@ -13,3 +13,5 @@ url
 ido.last
 network-security.data
 transient
+
+org-persist
