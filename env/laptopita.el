@@ -44,14 +44,14 @@
 ;(setq conda-anaconda-home "/opt/miniconda3")
 
 ;; default directory
-(setq default-directory "~/dev/src/frontend-service/client")
+;(setq default-directory "~/dev/src/frontend-service/client")
 ;(setq default-directory "~/dev/src/eqip")
 
 ;; Things to know doc
 (setq things-to-know-file "~/Documents/thingsToKnow/thingsToKnowOhOh.txt")
 
 ;; Aistemos Things to know doc
-(setq aistemos-things-to-know-file "~/Desktop/cipherMisc/aistemos_thingsToKnow.txt")
+;(setq aistemos-things-to-know-file "~/Desktop/cipherMisc/aistemos_thingsToKnow.txt")
 
 ;; tag tables
 ;;(setq tags-table-list

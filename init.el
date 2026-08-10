@@ -29,14 +29,17 @@
 ;; Load environment
 (load "~/.emacs.d/init-env.el")
 
-;; Marmalade, Melpa package archive
+;; Melpa package archive
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))  ;; hmmm sometimes marmalade is offline...
-;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;; NOTE: if you have problems, try doing M-x package-refresh-contents (or M-x package-list-packages)
 (package-initialize)
+
+;; On a fresh machine there's no cached archive metadata yet - fetch it
+;; so package-install below can resolve download URLs.
+(unless package-archive-contents
+  (package-refresh-contents))
 
 ;; To use local rjsx-mode.el
 ;; a) M-x package-delete (delete rjsx-mode)
@@ -50,7 +53,6 @@
     ag
     auto-complete
     company
-    conda
     dockerfile-mode
     dumb-jump
     elisp-slime-nav ;; allows M-. to elisp source code
@@ -81,7 +83,6 @@
     rjsx-mode
     rust-mode
     tide
-    virtualenvwrapper
     visual-regexp
     visual-regexp-steroids
     web-mode
@@ -150,8 +151,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages nil)
- '(safe-local-variable-values
-   '((ffip-project-root . "/Users/benimmanuel/dev/src/cipher/frontend")))
  '(sort-fold-case t t))
 
 ;; ffip - to initialise a new project, run M-x ffip-create-project-file    - this drops a .dir-locals.el file, allowing for search with multiple nested git subprojectrs or modules.
@@ -161,6 +160,7 @@
 
 ;; Magit-delta (NOTE: need to install git-delta i.e. "brew install git-delta")
 (use-package magit-delta
+  :ensure t
   :hook (magit-mode . magit-delta-mode))
 
 ;; Magit
@@ -334,7 +334,7 @@
     (interactive)
     (mapc 'kill-buffer
           (delq (current-buffer)
-                (remove-if-not 'buffer-file-name (buffer-list)))))
+                (cl-remove-if-not 'buffer-file-name (buffer-list)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -345,11 +345,6 @@
   "Open thingsToKnow.txt"
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
-
-(defun open-ufonia-things-to-know ()
-  "Open ufonia thingsToKnow file"
-  (interactive)
-  (find-file ufonia-things-to-know-file)) ;; this var is defined in env file
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -375,12 +370,6 @@
       (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" nil t)
         (replace-match "\\1 \\2")))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;
-;; Conductor copy-paste stuff (probably can delete soon!)
-;;;;;;;;;;;;;;;;;;;;;;
-(load (expand-file-name "scripts/conductor-transcript-clean.el" user-emacs-directory))
-(global-set-key (kbd "<f9>") 'conductor-clean-transcript)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -415,7 +404,6 @@
 
 ;; shortcuts for some useful files
 (global-set-key (kbd "<f17>") 'open-init)
-(global-set-key (kbd "<f18>") 'open-aistemos-things-to-know)
 (global-set-key (kbd "<f19>") 'open-things-to-know)
 
 (global-set-key (kbd "C-c n") 'delete-trailing-whitespace)
@@ -765,9 +753,6 @@ the shell, hence this workaround."
 (add-to-list 'auto-mode-alist '("\\.yml" . yaml-mode))
 
 ;; Conf
-(add-to-list 'auto-mode-alist '("cipher\-config\-" . conf-mode))
-;;(add-to-list 'auto-mode-alist '("cipher\-conf\\'" . conf-mode))
-(add-to-list 'auto-mode-alist '("cipher\-conf$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\.env$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\.env_sample$" . conf-mode))
 
