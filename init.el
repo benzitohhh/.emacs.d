@@ -346,10 +346,10 @@
   (interactive)
   (find-file things-to-know-file)) ;; this var is defined in env file
 
-(defun lsi ()
-  "Open lsi notes file"
+(defun interregs ()
+  "Open interRegs notes file"
   (interactive)
-  (find-file lsi-notes-file)) ;; this var is defined in env file
+  (find-file interregs-notes-file)) ;; this var is defined in env file
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
