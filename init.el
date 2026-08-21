@@ -52,7 +52,6 @@
   '(
     ag
     auto-complete
-    company
     dockerfile-mode
     dumb-jump
     elisp-slime-nav ;; allows M-. to elisp source code
@@ -67,8 +66,6 @@
     ido-completing-read+
     idle-highlight-mode
     jedi
-    js-doc
-    js-import
     js2-mode
     less-css-mode
     magit
@@ -82,9 +79,9 @@
     rainbow-mode
     rjsx-mode
     rust-mode
-    tide
     visual-regexp
     visual-regexp-steroids
+    vterm
     web-mode
     whitespace-cleanup-mode
     yaml-mode
@@ -355,25 +352,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Claude Code related
 ;;;;;;;;;;;;;;;;;;;;;;
-(defun strip-claude-code-indent ()
-  "Clean Claude Code output in region: remove two-space indent, trailing spaces, and join single linebreaks."
-  (interactive)
-  (let ((start (region-beginning))
-        (end (region-end)))
-    (save-restriction
-      (narrow-to-region start end)
-      ;; Remove two-space indent
-      (goto-char (point-min))
-      (while (re-search-forward "^  " nil t)
-        (replace-match ""))
-      ;; Remove trailing spaces
-      (goto-char (point-min))
-      (while (re-search-forward "[[:space:]]+$" nil t)
-        (replace-match ""))
-      ;; Join single linebreaks (preserve double+ linebreaks as paragraph breaks)
-      (goto-char (point-min))
-      (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" nil t)
-        (replace-match "\\1 \\2")))))
+
+;; vterm - a real terminal emulator, needed to run Claude Code inside emacs.
+;; M-x shell can't do it (it's a comint buffer - no cursor addressing or alt screen),
+;; and M-x term chokes on the redraws. Run "claude" inside M-x vterm instead.
+;;
+;; NOTE: on a new mac, install the build deps FIRST:  brew install cmake libtool
+;;       The bundled libvterm calls "glibtool" (GNU libtool, installed g-prefixed by
+;;       brew) - macOS's own /usr/bin/libtool is an unrelated tool and won't do.
+;;       Without it startup fails with a misleading pair of messages: "Compilation of
+;;       'emacs-libvterm' module succeeded" (that's only the cmake step) followed by
+;;       "Cannot open load file ... vterm-module". To see the real error, run "make"
+;;       by hand in elpa/vterm-*/build/.
+;;       The build runs once, on first M-x vterm, and takes ~30s.
+;; NOTE: in vterm nearly every key goes to the terminal. C-c C-t enters
+;;       vterm-copy-mode, where normal emacs movement/copying works ("q" to exit).
+;; NOTE: for a multiline prompt, Shift+Enter may not survive the trip through
+;;       emacs - "\" then Enter always works.
+(use-package vterm
+  :ensure t
+  :init
+  ;; Build the module on first use instead of prompting
+  (setq vterm-always-compile-module t)
+  :config
+  (setq vterm-max-scrollback 10000))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -423,8 +425,8 @@
 (global-set-key (kbd "M-z") 'toggle-truncate-lines)
 (global-set-key (kbd "C-M-z") 'visual-line-mode)
 
-;; Claude Code strip
-(global-set-key (kbd "<f8>") 'strip-claude-code-indent)
+;; vterm - terminal for running Claude Code
+(global-set-key (kbd "C-c t") 'vterm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
@@ -522,81 +524,10 @@
 ;; javascript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst js-file-extension-regex "\\.[jt]sx?$")
-
-(defun get-css-module-file ()
-  "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
-  (replace-regexp-in-string js-file-extension-regex ".module.css" (buffer-file-name)))
-
-(defun get-scss-module-file ()
-  "Get sass css module file that corresponds to current file (assumes current file is a .js file)."
-  (replace-regexp-in-string js-file-extension-regex ".module.scss" (buffer-file-name)))
-
-(defun open-scss-module ()
-  "Open sass css-module that corresponds to current file."
-  (interactive)
-  (find-file (get-scss-module-file)))
-
-(defun create-scss-module ()
-  "Create sass css-module based on current filename, add imports for it (assumes current file is a .js file)."
-  (interactive)
-  (let ((scss-file (get-scss-module-file))
-        (css-file (get-css-module-file)))
-    ;; add import to current buffer
-    (insert "import cn from 'classnames'")
-    (newline)
-    (insert (concat "import s from './" (file-name-nondirectory css-file) "'"))
-    (newline)
-    (insert "// <div className={cn(s.button, {[s.button__active]: is_clicked})} />")
-    (newline)
-    (save-buffer)
-    ;; create file if it does not exist
-    (shell-command (concat "touch " scss-file))
-    ;; open the file
-    (find-file scss-file)))
-
-(defun toggle-camelcase-underscores ()
-  "Toggle between camelcase and underscore notation for the symbol at point."
-  (interactive)
-  (save-excursion
-    (let* ((bounds (bounds-of-thing-at-point 'symbol))
-           (start (car bounds))
-           (end (cdr bounds))
-           (currently-using-underscores-p (progn (goto-char start)
-                                                 (re-search-forward "_" end t))))
-      (if currently-using-underscores-p
-          (progn
-            (upcase-initials-region start end)
-            (replace-string "_" "" nil start end)
-            (downcase-region start (1+ start)))
-        (replace-regexp "\\([A-Z]\\)" "_\\1" nil (1+ start) end)
-        (downcase-region start (cdr (bounds-of-thing-at-point 'symbol)))))))
-
-(defun my-js-hook ()
-  (interactive)
-  (global-set-key (kbd "C-c i") 'js-doc-insert-function-doc) ;; collision
-  (global-set-key (kbd "@")     'js-doc-insert-tag)
-  (global-set-key (kbd "C-c m") 'create-scss-module)
-  (global-set-key (kbd "C-c c") 'open-scss-module)
-  (global-set-key (kbd "C-c v") 'toggle-camelcase-underscores)
-  (global-set-key (kbd "s-i")    'js-import))
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (company-mode +1))
-(setq company-tooltip-align-annotations t)
-
 ;; By default, set all js/html/css indents to 2
 (set-indent-level-web 2)
 
-;; For js import, use single quote
-(setq js-import-quote "\'")
-(setq projectile-git-submodule-command nil) ;; currently projectile can't deal with submodules (projectile used by js-import)
+(setq projectile-git-submodule-command nil) ;; currently projectile can't deal with submodules
 
 ;; js / jsx - use rjsx mode
 (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode))
@@ -613,7 +544,6 @@
 (add-hook 'js-mode-hook
           (lambda ()
             (my-coding-hook)
-            (my-js-hook)
             (auto-complete-mode t)
             ))
 
@@ -621,24 +551,6 @@
 (setq js2-bounce-indent-p t)
 (setq js2-indent-switch-body t) ;; indent switch statements nicely
 (setq js2-strict-missing-semi-warning nil) ;; set to true to show errors if semicolons are missing
-(add-hook 'js2-mode-hook
-          (lambda ()
-            (setup-tide-mode)
-            ))
-
-;; js2-mode + flycheck....
-;; To get Flycheck to use jsx-tide with .js files, need to override the checker like this
-;; For now this is disabled (i.e. commented out below) as it flags up too many warnings. TODO: investigate.
-;; Meanwhile... just uing eslint
-;; (flycheck-define-generic-checker 'jsx-tide
-;;   "A JSX syntax checker using tsserver."
-;;   :start #'tide-flycheck-start
-;;   :verify #'tide-flycheck-verify
-;;   :modes '(web-mode js2-jsx-mode rjsx-mode)
-;;   :predicate (lambda ()
-;;                (and
-;;                 (tide-file-extension-p "js")
-;;                 (tide-flycheck-predicate))))
 
 ;; Web mode
 ;(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -654,12 +566,6 @@
             (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
 
             (my-coding-hook)
-            (my-js-hook)
-
-            (setup-tide-mode)
-
-            ;; configure jsx-tide checker to run after your default jsx checker
-            (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
             )
           )
 
