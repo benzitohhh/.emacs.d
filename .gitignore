@@ -14,5 +14,6 @@ ido.last
 network-security.data
 transient
 eln-cache
+tree-sitter
 
 org-persist

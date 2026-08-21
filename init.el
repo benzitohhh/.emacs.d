@@ -74,11 +74,11 @@
     multiple-cursors
     paredit
     php-mode
-    projectile
     protobuf-mode
     rainbow-mode
     rjsx-mode
     rust-mode
+    typst-ts-mode
     visual-regexp
     visual-regexp-steroids
     vterm
@@ -365,17 +365,60 @@
 ;;       "Cannot open load file ... vterm-module". To see the real error, run "make"
 ;;       by hand in elpa/vterm-*/build/.
 ;;       The build runs once, on first M-x vterm, and takes ~30s.
-;; NOTE: in vterm nearly every key goes to the terminal. C-c C-t enters
-;;       vterm-copy-mode, where normal emacs movement/copying works ("q" to exit).
-;; NOTE: for a multiline prompt, Shift+Enter may not survive the trip through
-;;       emacs - "\" then Enter always works.
+;; NOTE: in vterm nearly every key goes to the terminal (M-<, M->, C-v, M-v and
+;;       the arrow keys are all forwarded, so they will NOT scroll the buffer).
+;;       C-c C-t enters vterm-copy-mode, which stops output and makes the buffer
+;;       behave normally - M-<, M->, C-v, C-s all work there. C-c C-t toggles
+;;       back out; RET copies the region and exits in one go.
+;;       The mouse wheel scrolls without copy-mode (vterm leaves it to emacs),
+;;       but new output snaps you back to the bottom.
+;; NOTE: for a multiline prompt, M-<return> (Option-Return) and S-<return> are
+;;       both bound below, and bare C-j works with no binding at all.
+;;       "\" then Enter also always works, in any terminal.
+;; Newline (rather than submit) in Claude Code's input box.
+;; Enter sends CR (0x0D), which Claude Code reads as "submit". It inserts a
+;; newline on LF (0x0A) instead - that is what C-j sends, and C-j works raw in
+;; vterm with no binding at all. Tested: meta-<return> (ESC CR) does NOT work,
+;; so both keys below send plain LF.
+(defun my-vterm-send-lf ()
+  "Send a bare linefeed (LF, 0x0A) to the terminal.
+Claude Code treats CR as submit and LF as insert-newline."
+  (interactive)
+  (vterm-send-key "j" nil nil t))
+
+;; Start a fresh Claude Code session in its own vterm buffer.
+;; Binding vterm-shell means claude is run directly as the pty process, rather
+;; than starting a shell and typing "claude" into it (which races against shell
+;; startup). Note this also means /exit closes the buffer, since
+;; vterm-kill-buffer-on-exit defaults to t. To keep a shell underneath instead,
+;; use  (vterm-shell (format "%s -c 'claude; exec %s'" shell-file-name shell-file-name)).
+;; Passing a string to `vterm' calls generate-new-buffer, so repeated calls give
+;; *claude*, *claude*<2>, ... rather than reusing one session.
+(defun my-claude-vterm (&optional here)
+  "Open a new vterm buffer running Claude Code, rooted at the project root.
+With a prefix arg HERE, start in `default-directory' instead."
+  (interactive "P")
+  (let ((claude (executable-find "claude")))
+    (unless claude
+      (user-error "Cannot find a \"claude\" executable in exec-path"))
+    (let* ((root (and (not here)
+                      (ignore-errors
+                        (when-let* ((pr (project-current nil)))
+                          (project-root pr)))))
+           (default-directory (if root (expand-file-name root) default-directory))
+           (vterm-shell claude))
+      (vterm "*claude*"))))
+
 (use-package vterm
   :ensure t
   :init
   ;; Build the module on first use instead of prompting
   (setq vterm-always-compile-module t)
   :config
-  (setq vterm-max-scrollback 10000))
+  (setq vterm-max-scrollback 10000)
+  ;; GUI emacs sends <return> (not RET), and vterm leaves both of these unbound
+  (define-key vterm-mode-map (kbd "M-<return>") #'my-vterm-send-lf)
+  (define-key vterm-mode-map (kbd "S-<return>") #'my-vterm-send-lf))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -427,6 +470,9 @@
 
 ;; vterm - terminal for running Claude Code
 (global-set-key (kbd "C-c t") 'vterm)
+
+;; New Claude Code session in its own vterm buffer (C-u f8 = start here, not project root)
+(global-set-key (kbd "<f8>") 'my-claude-vterm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE-SPECIFIC SETTINGS
@@ -520,14 +566,25 @@
 (setq sgml-basic-offset 2)
 (add-hook 'sgml-mode-hook 'my-coding-hook)
 
+;; Typst (NOTE: needs the LSP i.e. "brew install tinymist", and a one-off
+;; "M-x typst-ts-mc-install-grammar" to build the tree-sitter grammar.
+;; NOTE: plain "M-x treesit-install-language-grammar RET typst" does NOT work -
+;;       typst-ts-mode binds the grammar source only inside its own command.)
+(use-package typst-ts-mode
+  :ensure t
+  :mode "\\.typ\\'"
+  :hook ((typst-ts-mode . my-coding-hook)
+         (typst-ts-mode . eglot-ensure))
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(typst-ts-mode . ("tinymist")))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; javascript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; By default, set all js/html/css indents to 2
 (set-indent-level-web 2)
-
-(setq projectile-git-submodule-command nil) ;; currently projectile can't deal with submodules
 
 ;; js / jsx - use rjsx mode
 (add-to-list 'auto-mode-alist '("\\.js" . rjsx-mode))
