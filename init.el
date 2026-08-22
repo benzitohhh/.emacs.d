@@ -67,7 +67,6 @@
     idle-highlight-mode
     jedi
     js2-mode
-    less-css-mode
     magit
     magit-delta
     markdown-mode
@@ -147,7 +146,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(ag dockerfile-mode dumb-jump elisp-slime-nav exec-path-from-shell
+        expand-region find-file-in-project flx-ido full-ack git-gutter
+        glsl-mode idle-highlight-mode ido-completing-read+ jedi
+        magit-delta markdown-mode multiple-cursors paredit php-mode
+        protobuf-mode rainbow-mode rjsx-mode rust-mode typst-ts-mode
+        visual-regexp-steroids vterm web-mode whitespace-cleanup-mode
+        yaml-mode yasnippet zenburn-theme))
  '(sort-fold-case t t))
 
 ;; ffip - to initialise a new project, run M-x ffip-create-project-file    - this drops a .dir-locals.el file, allowing for search with multiple nested git subprojectrs or modules.
@@ -653,11 +659,6 @@ With a prefix arg HERE, start in `default-directory' instead."
 ;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(require 'virtualenvwrapper) ;; to switch to a virtualenv, M-x venv-workon -> JEDI and shell pick this up
-;(require 'conda)
-;; i.e. need something like (setq conda-anaconda-home "/Users/benimmanuel/miniconda3")
-;; i.e. then to activate an env, M-x conda-env-activate <ret> py2
-;(conda-env-activate "py3")
 ;; ALSO: see ./env/ folder for pointing jedi home to different python envs (usefulf for seeing 3rd party source code)
 (defun annotate-pdb ()
   (interactive)
